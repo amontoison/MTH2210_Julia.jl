@@ -1,0 +1,6 @@
+authors = ["Antonin Paquette <antonin.paquette-rufiange@polymtl.ca>"]
+name = "MTH2210_Julia"
+uuid = "99179fae-0faa-11e9-27c5-3919910b0f4b"
+version = "0.1.0"
+
+[deps]
