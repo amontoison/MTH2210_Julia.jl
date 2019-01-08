@@ -1,7 +1,14 @@
 module MTH2210_Julia
 
-include("euler.jl")
+include("newton1D.jl")
 
-export euler
+export newton1D
+
+include("euler.jl")
+include("eulermod.jl")
+include("ptmilieu.jl")
+include("rk4.jl")
+
+export euler,eulermod,ptmilieu,rk4
 
 end

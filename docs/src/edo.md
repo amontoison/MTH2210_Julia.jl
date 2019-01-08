@@ -1,16 +1,14 @@
-# Résolution d'équations différentielles partielles
+# Résolution d'équations différentielles ordinaires
 
 Cette section est dédiée à la résolution numérique d'équations ordinaires de forme
 
 ``\frac{dY}{dt}(t) = F(t,Y(t)) \quad \text{avec} \quad Y(t_0) = Y_0``.
 
 Les algorithmes disponibles sont:
-1. Euler explicite: [euler.jl](),
-2. Euler modifié: [eulermod.jl](),
-3. Point milieu: [pointmilieu.jl](),
-4. Runge-Kutta d'ordre 4: [rk4.jl]().
-
-## Exemple de résolution d'une équation différentielle ordinaire
+1. Euler explicite: [`euler`](@ref),
+2. Euler modifié: [`eulermod`](@ref),
+3. Point milieu: [`ptmilieu`](@ref),
+4. Runge-Kutta d'ordre 4: [`rk4`](@ref).
 
 
 ## Exemple de résolution d'un système d'équations différentielles ordinaires
@@ -19,7 +17,7 @@ de masse ``m=2\,\text{kg}`` et de constante de rappel ``k=3\,\text{N/m}``:
 
 `` \frac{d^2 y}{dt^2}(t) = -\frac{k}{m} y(t) \quad \text{avec} \quad y(1) = 5 \text{ et } \frac{d y}{dt}(1) =0``.
 
-On s'intéresse à la solution entre ```t_0=1\,\text{s}`` et ``t_f = 4\,\text{s}``. On doit tout d'abord effectuer un changement de variables
+On s'intéresse à la solution entre ``t_0=1\,\text{s}`` et ``t_f = 4\,\text{s}``. On doit tout d'abord effectuer un changement de variables
 
 ``z_1(t) = y(t)\\ z_2(t) = \frac{d y}{dt}(t)``
 
@@ -41,7 +39,7 @@ function my_edo(t,z)
 end
 ```
 
-Il faut ensuite appeler la fonction [euler_exp.jl]()
+Il faut ensuite appeler la fonction [`euler`](@ref)
 
 ```julia
 t0 = 1.

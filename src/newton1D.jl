@@ -1,31 +1,28 @@
 """
-Résolution d'EDOs de type `` \\frac{dY}{dt}(t) = F(t,Y(t))`` avec les
-conditions initiales ``Y(t_0) = Y_0`` à l'aide de la méthode d'Euler explicite
-jusqu'au temps ``t_f`` avec pas constant ``h``:
+Résolution d'une équation non-linéaire de forme ``f(x)=0`` avec la méthode
+de Newton:
 
-``Y_{n+1} = Y_{n} + h F(t_n,Y_n)``
+``x_{n+1} = x_n - \\frac{f(x_n)}{f'(x_n)}``
 
 # Syntaxe
 ```julia
-(t,Y) = euler(fct , tspan , Y0 , nbpas)
+(approx , err_abs) = Newton1D(fct , dfct , x0 , nb_it_max , tol_rel)
 ```
 
 # Entrée
-    1.  fct     -   Fonction décrivant le système de N EDOs
-    2.  tspan   -   Vecteur contenant le temps initial et final (tspan=[t0,tf])
-    3.  Y0      -   Vecteur contenant les N conditions initiales
-    4.  nbpas   -   Entier spécifiant le nombre de pas de temps
+    1.  fct         -   Fonction f 
+    2.  dfct        -   Dérivée de la fonction f
+    3.  x0          -   Approximations initiales
+    4.  nb_it_max   -   Nombre maximum d'itérations
+    5.  tol_rel	    -	Tolérance sur l'approximation de l'erreur relative
 
 # Sortie
-    1.  temps   -   Vecteur contenant les pas de temps
-    2.  Y       -   Matrice de dimension (nbpas+1) x N contenant les approximations
+    1.  approx      -   Vecteur colonne de taille nb_iter contenant les	itérations
+    2.  err_abs	    -	Vecteur colonne de dimension nb_iter contenant les erreurs absolues
 
 # Exemples d'appel
 ```julia
-(t,y)   =   euler((t,y) -> cos(t) , [0.;2.] , [1.] , 1000)
-```
-```julia
-(t,y)   =   euler((t,y) -> [y[2];-y[1]] , [0.;10.] , [1.;0.] , 1000)
+(approx , err_abs) = Newton1D((x) -> x^2 - 10 , (x) -> 2*x , 3 , 20 , 1e-9)
 ```
 ```julia
 function my_edo(t,z)
@@ -37,7 +34,7 @@ end
 (t,y)   =   euler(my_edo , [0.;10.] , [1.;0.] , 1000)
 ```
 """
-function euler(fct::Function , tspan::Vector{T},
+function newton1D(fct::Function , tspan::Vector{T},
                     Y0::Vector{T} , nbpas::Integer) where {T<:AbstractFloat}
 
 

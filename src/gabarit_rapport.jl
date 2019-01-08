@@ -9,6 +9,7 @@
 
 using Plots
 using Printf
+using LinearAlgebra
 
 #' ## Exercice 1 - Quelques opérations simples
 

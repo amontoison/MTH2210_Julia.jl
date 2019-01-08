@@ -1,13 +1,14 @@
 """
 Résolution d'EDOs de type `` \\frac{dY}{dt}(t) = F(t,Y(t))`` avec les
-conditions initiales ``Y(t_0) = Y_0`` à l'aide de la méthode d'Euler explicite
+conditions initiales ``Y(t_0) = Y_0`` à l'aide de la méthode d'Euler modifié
 jusqu'au temps ``t_f`` avec pas constant ``h``:
 
-``Y_{n+1} = Y_{n} + h F(t_n,Y_n)``
+``\\tilde{Y} = Y_{n} + h F(t_n,Y_n)
+\\\\ Y_{n+1} = Y_n + \\frac{h}{2} \\left(F(t_n,Y_n) + F(t_n +h, \\tilde{Y}) \\right)``
 
 # Syntaxe
 ```julia
-(t,Y) = euler(fct , tspan , Y0 , nbpas)
+(t,Y) = euler(fct , tspan , Y0 , nbpas)F(t_n,Y_n) +
 ```
 
 # Entrée
@@ -22,10 +23,10 @@ jusqu'au temps ``t_f`` avec pas constant ``h``:
 
 # Exemples d'appel
 ```julia
-(t,y)   =   euler((t,y) -> cos(t) , [0.;2.] , [1.] , 1000)
+(t,y)   =   eulermod((t,y) -> cos(t) , [0.;2.] , [1.] , 1000)
 ```
 ```julia
-(t,y)   =   euler((t,y) -> [y[2];-y[1]] , [0.;10.] , [1.;0.] , 1000)
+(t,y)   =   eulermod((t,y) -> [y[2];-y[1]] , [0.;10.] , [1.;0.] , 1000)
 ```
 ```julia
 function my_edo(t,z)
@@ -34,10 +35,10 @@ function my_edo(t,z)
     f[2] = -z[1]
     return f
 end
-(t,y)   =   euler(my_edo , [0.;10.] , [1.;0.] , 1000)
+(t,y)   =   eulermod(my_edo , [0.;10.] , [1.;0.] , 1000)
 ```
 """
-function euler(fct::Function , tspan::Vector{T},
+function eulermod(fct::Function , tspan::Vector{T},
                     Y0::Vector{T} , nbpas::Integer) where {T<:AbstractFloat}
 
 
@@ -70,9 +71,11 @@ function euler(fct::Function , tspan::Vector{T},
      Y[:,1]  .=  Y0
      temps   =   LinRange{T}(tspan[1], tspan[2] , nbpas+1)
      h       =   temps[2] - temps[1]
+     y_tilde =   zeros(T,N)
 
      for t=1:nbpas
-         Y[:,t+1] .= view(Y,:,t) .+ h .* fct(temps[t], view(Y,:,t))
+         y_tilde .= view(Y,:,t) .+ h .* fct(temps[t], view(Y,:,t))
+         Y[:,t+1] .= view(Y,:,t) .+ (h ./ 2) .* (fct(temps[t], view(Y,:,t)) .+ fct(temps[t] + h, y_tilde))
      end
 
      return  temps , transpose(Y)
