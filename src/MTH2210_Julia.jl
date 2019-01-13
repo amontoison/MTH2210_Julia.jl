@@ -1,5 +1,9 @@
 module MTH2210_Julia
 
+using LinearAlgebra
+using Statistics
+using Printf
+
 include("newton1D.jl")
 
 export newton1D

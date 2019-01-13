@@ -8,7 +8,7 @@ jusqu'au temps ``t_f`` avec pas constant ``h``:
 
 # Syntaxe
 ```julia
-(t,Y) = euler(fct , tspan , Y0 , nbpas)F(t_n,Y_n) +
+(t,Y) = eulermod(fct , tspan , Y0 , nbpas)F(t_n,Y_n) +
 ```
 
 # Entrée

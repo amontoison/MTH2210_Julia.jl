@@ -11,7 +11,7 @@ d'ordre 4 jusqu'au temps ``t_f`` avec pas constant ``h``:
 
 # Syntaxe
 ```julia
-(t,Y) = euler(fct , tspan , Y0 , nbpas)
+(t,Y) = rk4(fct , tspan , Y0 , nbpas)
 ```
 
 # Entrée

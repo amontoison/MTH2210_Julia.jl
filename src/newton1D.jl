@@ -6,72 +6,118 @@ de Newton:
 
 # Syntaxe
 ```julia
-(approx , err_abs) = Newton1D(fct , dfct , x0 , nb_it_max , tol_rel)
+(approx , err_abs) = newton1D(fct , dfct , x0 , nb_it_max , tol_rel)
 ```
 
 # Entrée
-    1.  fct         -   Fonction f 
+    1.  fct         -   Fonction f
     2.  dfct        -   Dérivée de la fonction f
     3.  x0          -   Approximations initiales
     4.  nb_it_max   -   Nombre maximum d'itérations
-    5.  tol_rel	    -	Tolérance sur l'approximation de l'erreur relative
+    5.  tol_rel	    -   Tolérance sur l'approximation de l'erreur relative
 
 # Sortie
     1.  approx      -   Vecteur colonne de taille nb_iter contenant les	itérations
-    2.  err_abs	    -	Vecteur colonne de dimension nb_iter contenant les erreurs absolues
+    2.  err_abs	    -   Vecteur colonne de dimension nb_iter contenant les erreurs absolues
 
 # Exemples d'appel
 ```julia
-(approx , err_abs) = Newton1D((x) -> x^2 - 10 , (x) -> 2*x , 3 , 20 , 1e-9)
+(approx , err_abs) = newton1D((x) -> x^2 - 10 , (x) -> 2*x , 3. , 20 , 1e-9)
 ```
 ```julia
-function my_edo(t,z)
-    f = zeros(length(z))
-    f[1] = z[2]
-    f[2] = -z[1]
+function my_fct_nl(x)
+    f = x^2 - 10
     return f
 end
-(t,y)   =   euler(my_edo , [0.;10.] , [1.;0.] , 1000)
+function my_dfct_nl(x)
+    df = 2*x
+    return df
+end
+(approx , err_abs) = newton1D(my_fct_nl , my_dfct_nl , 3. , 20 , 1e-9)
 ```
 """
-function newton1D(fct::Function , tspan::Vector{T},
-                    Y0::Vector{T} , nbpas::Integer) where {T<:AbstractFloat}
+function newton1D(fct::Function , dfct::Function,
+                    x0::T , nb_it_max::Integer, tol_rel::T) where {T<:AbstractFloat}
 
 
-     # Vérification des arguments d'entrée
-     if length(tspan) != 2
-         error("Le vecteur tspan doit contenir 2 composantes, [t0 , tf]")
-     elseif nbpas<=0
-     error(string("L'argument nbpas=$nbpas n'est pas valide. ",
-                          "Cet argument doit être un entier > 0."))
+     try
+         fct(x0)
+     catch y
+         error(string("Problème avec la fonction ",fct,".\n",y))
      end
 
      try
-         fct(tspan[1],Y0)
+         dfct(x0)
      catch y
-         if isa(y,BoundsError)
-             error("Le nombre de composantes de Y0 et f ne concorde pas")
-         else
-             error(y)
+         error(string("Problème avec la fonction ",dfct,".\n",y))
+     end
+
+     if ~isa(fct(x0),T)
+         error(string("La fonction ",fct," ne retourne pas un scalaire de type ",T))
+     elseif ~isa(dfct(x0),T)
+         error(string("La fonction ",dfct," ne retourne pas un scalaire de type ",T))
+     elseif ~check_derivative(fct,dfct,x0,T)
+         println("Il semble y avoir une erreur avec la dérivée")
+     end
+
+     # Initialisation des vecteurs
+     app        = 	NaN .* ones(T,nb_it_max)
+     app[1]	    =	x0
+     err_rel	=	Inf .* ones(T,nb_it_max)
+     arret		=	false
+     nb_it      =   1
+	 t = 1
+
+     for outer t=1:nb_it_max-1
+         app[t+1]	=	app[t] - fct(app[t]) / dfct(app[t])
+         if abs(dfct(app[t])) == 0
+             @printf("La dérivée de f au point x=%6.5e est exactement 0.\nArrêt de l'algorithme\n",app[t])
+             break
+         end
+
+         err_rel[t]	=	abs(app[t+1]-app[t])/(abs(app[t+1]) + eps())
+
+         if (err_rel[t] <= tol_rel) || (fct(app[t+1]) == 0)
+             arret	=	true
+		     break
          end
      end
 
-     if ~isa(fct(tspan[1],Y0),Array{T,1})
-         error("La fonction f ne retourne pas un vecteur de type float")
-     elseif (length(Y0) != length(fct(tspan[1],Y0)))
-         error("Le nombre de composantes de Y0 et f ne concorde pas")
+     nb_it   = t+1
+     approx  = app[1:nb_it]
+     err_abs = Inf .* ones(T,nb_it)
+
+     if arret
+         err_abs = abs.(approx[end] .- approx)
+     else
+         println("La méthode de Newton n'a pas convergée")
      end
 
-     N       =   length(Y0)
-     Y       =   zeros(T,N,nbpas+1)
-     Y[:,1]  .=  Y0
-     temps   =   LinRange{T}(tspan[1], tspan[2] , nbpas+1)
-     h       =   temps[2] - temps[1]
+     return approx , err_abs
+end
 
-     for t=1:nbpas
-         Y[:,t+1] .= view(Y,:,t) .+ h .* fct(temps[t], view(Y,:,t))
-     end
 
-     return  temps , transpose(Y)
 
+function check_derivative(f,df,x0,T)
+
+	if x0 == 0
+		h_init	=	1e-6
+	else
+		h_init	=	1e-3 * abs(x0)
+	end
+
+	h		=	h_init ./ (2. .^ (0:4))
+	erreur	=	ones(T,length(h))
+
+	for t=1:length(h)
+		app			=	(f(x0+h[t]) - f(x0-h[t])) / (2*h[t])
+		erreur[t]	=	abs(df(x0) - app)
+	end
+
+	ordre	=	log.(erreur[2:end] ./ erreur[1:end-1]) ./
+				log.(h[2:end]      ./ h[1:end-1]);
+
+	test	=	(mean( abs.(2 .- ordre) ) <= 0.25) || (mean(erreur ./ (abs(df(x0))+eps())) <=1e-9)
+
+    return test
 end

@@ -8,8 +8,12 @@
 #' Date:
 
 using Plots
-using Printf
+plotly()
 using LinearAlgebra
+using Printf
+using Statistics
+push!(LOAD_PATH,"C:\\Users\\Antonin\\Documents\\Antonin\\Maitrise\\MTH2210_codes\\New_codes\\MTH2210_Julia\\src")
+using MTH2210_Julia
 
 #' ## Exercice 1 - Quelques opérations simples
 
@@ -37,8 +41,10 @@ end
 
 #' ## Exercice 2 - Affichage d'un graphique
 
-plot(x , y , label="2cos(x)")
-plot!(x , y2 , label="sin(x)" , xlabel="x")
+
+p1 = plot(x , y , label="2cos(x)")
+plot!(p1,x , y2 , label="sin(x)" , xlabel="x")
+display(p1)
 
 #' ## Exercice 3 - Création d'une fonction
 
@@ -52,3 +58,17 @@ resultat = fct1(2.0)
 
 #' Appel de la fonction pour des vecteurs de float
 resultat2 = fct1.(x)
+
+#' ## Exercice 4 - Résolution EDOs
+
+function my_edo(t,z)
+    f = zeros(length(z))
+    f[1] = z[2]
+    f[2] = -z[1]
+    return f
+end
+(temps,y)   =   euler(my_edo , [0.;10.] , [1.;0.] , 1000)
+
+p2 = plot(temps,y[:,1],label="y(t)")
+plot!(p2,temps,10 .* y[:,2],label="y'(t)",xlabel="Temps",title="Solution num. de l'EDO")
+display(p2)
