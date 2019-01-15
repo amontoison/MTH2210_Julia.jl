@@ -1,5 +1,5 @@
 """
-Résolution d'une équation non-linéaire de forme ``f(x)=0`` avec la méthode
+Résolution d'une équation non-linéaire de forme ``f(r)=0`` avec la méthode
 de la bissection:
 
 # Syntaxe
@@ -15,8 +15,8 @@ de la bissection:
     5.  tol_rel	    -   Tolérance sur l'approximation de l'erreur relative
 
 # Sortie
-    1.  approx      -   Vecteur colonne de taille nb_iter contenant les	itérations
-    2.  err_abs	    -   Vecteur colonne de dimension nb_iter contenant les erreurs absolues
+    1.  approx      -   Vecteur de taille nb_iter contenant les	itérations
+    2.  err_abs	    -   Vecteur de dimension nb_iter contenant les erreurs absolues
 
 # Exemples d'appel
 ```julia
@@ -64,6 +64,9 @@ function bissec(fct::Function , x0::T , x1::T ,
      err_rel	=	Inf .* ones(T,nb_it_max)
 	 arret		=	false
      nb_it      =   1
+	 x_gauche	=  	NaN
+	 x_droite	=  	NaN
+	 x_milieu 	=	NaN
 	 f_gauche	=	NaN
 	 f_droite	=	NaN
 	 f_milieu	=	NaN
@@ -97,7 +100,7 @@ function bissec(fct::Function , x0::T , x1::T ,
 				 break
 			 end
 		 else
-			 err_rel[t-1]	=	abs(app[t]-app[t-1])/(abs(app[t]) + eps)
+			 err_rel[t-1]	=	abs(app[t]-app[t-1])/(abs(app[t]) + eps())
 			 if (err_rel[t-1] <= tol_rel) || (fct(app[t]) == 0)
 				 arret	=	true
 				 break

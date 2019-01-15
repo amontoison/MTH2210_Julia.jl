@@ -1,5 +1,5 @@
 """
-Résolution d'une équation non-linéaire de forme ``f(x)=0`` avec la méthode
+Résolution d'une équation non-linéaire de forme ``f(r)=0`` avec la méthode
 de Newton:
 
 ``x_{n+1} = x_n - \\frac{f(x_n)}{f'(x_n)}``
@@ -17,8 +17,8 @@ de Newton:
     5.  tol_rel	    -   Tolérance sur l'approximation de l'erreur relative
 
 # Sortie
-    1.  approx      -   Vecteur colonne de taille nb_iter contenant les	itérations
-    2.  err_abs	    -   Vecteur colonne de dimension nb_iter contenant les erreurs absolues
+    1.  approx      -   Vecteur de taille nb_iter contenant les itérations
+    2.  err_abs	    -   Vecteur de dimension nb_iter contenant les erreurs absolues
 
 # Exemples d'appel
 ```julia

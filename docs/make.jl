@@ -1,11 +1,12 @@
 push!(LOAD_PATH,"C:\\Users\\Antonin\\Documents\\Antonin\\Maitrise\\MTH2210_codes\\New_codes\\MTH2210_Julia\\src")
 
-using Documenter, MTH2210_Julia
+using Documenter, DocumenterLaTeX, MTH2210_Julia
 
 makedocs(
-    sitename = "MTH2210_Julia",
+    sitename = "MTH2210 Julia",
     modules = [MTH2210_Julia],
     format = Documenter.HTML(prettyurls = false),
+    #format = LaTeX(),
     pages = Any[
             "Accueil" => "accueil.md",
             "Mise en place" => "mise_en_place.md",
