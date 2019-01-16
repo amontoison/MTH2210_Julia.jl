@@ -12,7 +12,7 @@ de Newton:
 # Entrée
     1.  fct         -   Fonction f
     2.  dfct        -   Dérivée de la fonction f
-    3.  x0          -   Approximations initiales
+    3.  x0          -   Approximation initiale
     4.  nb_it_max   -   Nombre maximum d'itérations
     5.  tol_rel	    -   Tolérance sur l'approximation de l'erreur relative
 

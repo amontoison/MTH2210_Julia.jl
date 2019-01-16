@@ -41,8 +41,8 @@ end
 (t,y)   =   rk4(my_edo , [0.;10.] , [1.;0.] , 1000)
 ```
 """
-function rk4(fct::Function , tspan::Vector{T},
-                    Y0::Vector{T} , nbpas::Integer) where {T<:AbstractFloat}
+function rk4(fct::Function , tspan::AbstractArray{T,1},
+                    Y0::AbstractArray{T,1} , nbpas::Integer) where {T<:AbstractFloat}
 
 
      # Vérification des arguments d'entrée

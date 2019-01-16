@@ -8,5 +8,5 @@ Pages = ["fct_index.md"]
 
 ```@autodocs
 Modules = [MTH2210_Julia]
-Order   = [:function]
+Order   = [:function, :type]
 ```

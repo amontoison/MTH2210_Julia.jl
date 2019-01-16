@@ -7,8 +7,10 @@ using Printf
 include("bissec.jl")
 include("secante.jl")
 include("newton1D.jl")
+include("newtonNDder.jl")
+include("newtonND.jl")
 
-export bissec , secante , newton1D
+export bissec , secante , newton1D , newtonNDder , newtonND
 
 include("euler.jl")
 include("eulermod.jl")
