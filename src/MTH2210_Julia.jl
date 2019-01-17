@@ -1,6 +1,7 @@
 module MTH2210_Julia
 
 using LinearAlgebra
+using SparseArrays
 using Statistics
 using Printf
 

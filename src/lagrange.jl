@@ -1,9 +1,5 @@
 """
-Résolution dun système non-linéaire de forme ``F(r)=0`` avec la méthode
-de Newton:
-
-``\\Delta x = J_F^{-1}(x_n) F(x_n)
-\\\\ x_{n+1} = x_n + \\Delta x ``
+Interpolation de Lagrange
 
 # Syntaxe
 ```julia
@@ -34,11 +30,11 @@ function my_sys_nl_jac(x)
 	jac[2,2] = 1
 	return jac
 end
-(approx , err_abs) = newtonNDder(my_sys_nl , my_sys_nl_jac , [1.,1.] , 20 , 1e-9)
+Lx = lagrange(my_sys_nl , my_sys_nl_jac , [1.,1.] , 20 , 1e-9)
 ```
 """
-function lagrange(xi::AbstractArray{T,1} , yi::AbstractArray{T,1} ,
-            x::AbstractArray{T,1}) where {T<:AbstractFloat}
+function lagrange(xi::AbstractArray{T,1}, yi::AbstractArray{T,1},
+    x::AbstractArray{T,1}) where {T<:AbstractFloat}
 
     N = length(xi)
 
@@ -57,15 +53,18 @@ function lagrange(xi::AbstractArray{T,1} , yi::AbstractArray{T,1} ,
     end
 
     # Calcul de l'interpolant aux points x
-    Lx  =   Array{T,1}(undef,length(x))
+    test        =   Array{Bool,1}(undef,length(xi))
+    Lx          =   Array{T,1}(undef,length(x))
+    vec_diff    =   Array{T,1}(undef,length(xi))
+    ratio       =   Array{T,1}(undef,length(xi))
+
     for t=1:length(x)
-        test = (x[t] .== xi)
+        test .= (x[t] .== xi)
         if any(test)
-            temp = yi[test]
-            Lx[t] = temp[1]
+            Lx[t] = yi[test][1]
         else
-            vec_diff = x[t] .- xi
-            ratio    = w ./ vec_diff
+            vec_diff .= x[t] .- xi
+            ratio    .= w ./ vec_diff
             Lx[t]    = sum(ratio .* yi) / sum(ratio)
         end
     end

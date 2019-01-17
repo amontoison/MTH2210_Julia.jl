@@ -36,8 +36,8 @@ end
 (approx , err_abs) = newton1D(my_fct_nl , my_dfct_nl , 3. , 20 , 1e-9)
 ```
 """
-function newton1D(fct::Function , dfct::Function,
-                    x0::T , nb_it_max::Integer, tol_rel::T) where {T<:AbstractFloat}
+function newton1D(fct::Function , dfct::Function , x0::T ,
+				nb_it_max::Integer, tol_rel::T) where {T<:AbstractFloat}
 
 
      try
