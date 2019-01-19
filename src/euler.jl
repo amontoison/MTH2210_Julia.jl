@@ -37,15 +37,15 @@ end
 (t,y)   =   euler(my_edo , [0.;10.] , [1.;0.] , 1000)
 ```
 """
-function euler(fct::Function, tspan::TT, Y0::TT ,
-            nbpas::Integer) where {T<:AbstractFloat,TT<:AbstractArray{T,1}}
+function euler(fct::Function, tspan::AbstractArray{T,1},
+            Y0::AbstractArray{T,1} , nbpas::Integer) where {T<:AbstractFloat}
 
 
      # Vérification des arguments d'entrée
      if length(tspan) != 2
          error("Le vecteur tspan doit contenir 2 composantes, [t0 , tf]")
      elseif nbpas<=0
-     error(string("L'argument nbpas=$nbpas n'est pas valide. ",
+         error(string("L'argument nbpas=$nbpas n'est pas valide. ",
                           "Cet argument doit être un entier > 0."))
      end
 

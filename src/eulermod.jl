@@ -38,8 +38,8 @@ end
 (t,y)   =   eulermod(my_edo , [0.;10.] , [1.;0.] , 1000)
 ```
 """
-function eulermod(fct::Function, tspan::TT, Y0::TT ,
-            nbpas::Integer) where {T<:AbstractFloat,TT<:AbstractArray{T,1}}
+function eulermod(fct::Function, tspan::AbstractArray{T,1},
+            Y0::AbstractArray{T,1} , nbpas::Integer) where {T<:AbstractFloat}
 
 
      # Vérification des arguments d'entrée

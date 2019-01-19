@@ -5,6 +5,11 @@ using SparseArrays
 using Statistics
 using Printf
 
+include("lagrange.jl")
+include("splinec.jl")
+
+export lagrange , splinec , divided_difference
+
 include("bissec.jl")
 include("secante.jl")
 include("newton1D.jl")
