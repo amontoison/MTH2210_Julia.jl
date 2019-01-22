@@ -1,9 +1,9 @@
 module MTH2210_Julia
 
 using LinearAlgebra
+using Printf
 using SparseArrays
 using Statistics
-using Printf
 
 include("lagrange.jl")
 include("splinec.jl")
@@ -15,8 +15,9 @@ include("secante.jl")
 include("newton1D.jl")
 include("newtonNDder.jl")
 include("newtonND.jl")
+include("ptfixes.jl")
 
-export bissec , secante , newton1D , newtonNDder , newtonND
+export bissec , secante , newton1D , newtonNDder , newtonND , ptfixes
 
 include("euler.jl")
 include("eulermod.jl")

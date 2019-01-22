@@ -28,7 +28,7 @@ afin de transformer l'EDO d'ordre 2 en ce système d'EDOs d'ordre 1
 On peut appliquer la méthode d'Euler explicite afin de résoudre ce système d'EDOs.
 De la même manière que précédemment, il faut créer la fonction ``F:\mathbb{R} \times \mathbb{R}^2 \to \mathbb{R}^2``
 
-```julia
+```@example 1
 function my_edo(t,z)
     m = 2.
     k = 3.
@@ -37,23 +37,28 @@ function my_edo(t,z)
     f[2] = -k/m*z[1]
     return f
 end
+nothing # hide
 ```
 
 Il faut ensuite appeler la fonction [`euler`](@ref)
 
-```julia
+```@example 1
+using MTH2210_Julia
+using Plots
+
 t0 = 1.
 tf = 4.
 tspan = [t0,tf]
 z0 = [5.,0.]
 nbpas = 1000
 (temps, z) = euler(my_edo , tspan , z0 , nbpas)
+nothing # hide
 ```
 
-Les résultats peuvent ensuite être affichés dans un graphique
+Les résultats peuvent ensuite être affichés dans un graphique.
 
-```julia
-using Plots
+```@example 1
+y_exacte =  
 plot(temps,z[:,1],label="y(t)")
 plot!(temps,z[:,2],label="y'(t)",xlabel="temps [s]")
 ```
