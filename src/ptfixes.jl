@@ -13,11 +13,11 @@ des points-fixes:
     1.  fct         -   Fonction g
     2.  x0          -   Approximation initiale
 	4.  nb_it_max   -   Nombre maximum d'itérations
-    5.  tol_rel	    -   Tolérance sur l'approximation de l'erreur relative
+    5.  tol_rel     -   Tolérance sur l'approximation de l'erreur relative
 
 # Sortie
     1.  approx      -   Vecteur de taille nb_iter contenant les	itérations
-    2.  err_abs	    -   Vecteur de dimension nb_iter contenant les erreurs absolues
+    2.  err_abs     -   Vecteur de dimension nb_iter contenant les erreurs absolues
 
 # Exemples d'appel
 ```julia

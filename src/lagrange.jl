@@ -7,12 +7,12 @@ Lx = lagrange(xi , yi , x)
 ```
 
 # Entrée
-    1.  xi         	-   Abscisses des points d'interpolation
-    2.  yi        	-   Ordonnées des points d'interpolation
-    3.  x          	-   Points où le polynôme d'interpolation est évalué
+    1.  xi          -   Abscisses des points d'interpolation
+    2.  yi          -   Ordonnées des points d'interpolation
+    3.  x           -   Points où le polynôme d'interpolation est évalué
 
 # Sortie
-    1.  Lx     	 	-   Valeur du polynôme aux points x
+    1.  Lx          -   Valeur du polynôme aux points x
 
 # Exemples d'appel
 ```julia

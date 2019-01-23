@@ -1,5 +1,5 @@
 """
-Interpolation par les splines cubiques:
+Interpolation par les splines cubiques
 
 
 # Syntaxe
@@ -8,14 +8,14 @@ Sx = splinec(xi , yi , x , type_f , val_f)
 ```
 
 # Entrée
-    1.  xi         	-   Abscisses des points d'interpolation
-    2.  yi        	-   Ordonnées des points d'interpolation
-    3.  x          	-   Points où la spline cubique est évaluée
+    1.  xi          -   Abscisses des points d'interpolation
+    2.  yi          -   Ordonnées des points d'interpolation
+    3.  x           -   Points où la spline cubique est évaluée
     4.  type_f      -   Type de conditions frontières imposées en x_0 et x_n
     5.  val_f       -   Valeurs des conditions frontières imposées en x_0 et x_n
 
 # Sortie
-    1.  Sx     	 	-   Valeur de la spline cubique aux points x
+    1.  Sx          -   Valeur de la spline cubique aux points x
 
 # Exemples d'appel
 ```julia
@@ -121,9 +121,34 @@ function splinec(xi::AbstractArray{T,1}, yi::AbstractArray{T,1} ,
 end
 
 
-""">
-Table des différences divisées:
+"""
+Table des différences divisées
 
+# Syntaxe
+```julia
+table_df = divided_difference(xi , yi )
+```
+
+# Entrée
+    1.  xi         	-   Abscisses des points d'interpolation
+    2.  yi        	-   Ordonnées des points d'interpolation
+
+# Sortie
+    1.  table_df 	-   Table des différences divisées: la 1ère colonne
+                        contient les premières différences divisées, la 2ème
+                        colonne (jusqu'à la ligne end-1) contient les deuxièmes
+                        différences divisées,...
+
+# Exemples d'appel
+```julia
+xi = [2. , 0. , 5. , 3.]
+yi = [1. , -1. , 10. , -4.]
+
+table = divided_difference(xi,yi)
+diff_div1 = table[:,1]
+diff_div2 = table[1:end-1,2]
+diff_div3 = table[1:end-2,3]
+```
 """
 function divided_difference(xi::AbstractArray{T,1},
                         yi::AbstractArray{T,1}) where {T<:AbstractFloat}
@@ -146,11 +171,5 @@ end
 function poly_spline(xi,yi,Spp,h,x)
     Px = -Spp[1]/(6*h) .* (x .- xi[2]).^3 .+ Spp[2]/(6*h) .* (x .- xi[1]).^3 .-
             (yi[1]/h - Spp[1]*h/6) .* (x .- xi[2]) .+ (yi[2]/h - Spp[2]*h/6) .* (x .- xi[1])
-    return Px
-end
-
-function poly_spline2(xi,yi,Spp,h,x)
-    Px = -Spp[1]/(6*h) * (x - xi[2])^3 + Spp[2]/(6*h) * (x - xi[1])^3 -
-            (yi[1]/h - Spp[1]*h/6) * (x - xi[2]) + (yi[2]/h - Spp[2]*h/6) * (x - xi[1])
     return Px
 end
