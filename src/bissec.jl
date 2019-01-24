@@ -78,8 +78,6 @@ function bissec(fct::Function , x0::T , x1::T ,
 			 x_gauche	=	minimum([x0,x1])
 			 x_droite	=	maximum([x0,x1])
 		 else
-			 println(t)
-			 println(f_gauche)
 			 if f_gauche*f_milieu < 0
 				 x_droite	=	x_milieu
 			 elseif f_droite*f_milieu < 0
@@ -110,7 +108,6 @@ function bissec(fct::Function , x0::T , x1::T ,
 		 f_gauche	=	fct(x_gauche)
 		 f_droite	=	fct(x_droite)
 		 f_milieu	=	fct(x_milieu)
-		 println(f_gauche)
 	 end
 
 	 nb_it = t

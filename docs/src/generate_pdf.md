@@ -1,4 +1,4 @@
-# Génération d'un pdf
+# Génération d'un fichier pdf
 
 Le package [Weave](http://weavejl.mpastell.com/stable/) permet de générer un
 rapport sous format pdf d'un script Julia.
