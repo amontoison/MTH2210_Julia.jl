@@ -68,13 +68,16 @@ function g(x)
     return g
 end
 (approx_fixe , err_fixe) = ptfixes(g , x0 , 50 , 1e-9)
+nothing # hide
 ```
 
-On peut ensuite afficher l'évolution des erreurs selon l'itération. Il est
-important de sélectionner les éléments non-nuls des vecteurs `err_bis`,
-`err_sec`, `err_new` et `err_fixe` afin de pouvoir les afficher avec un axe
-logarithmique (`yscale=:log10`). Pour ce faire, on peut utiliser l'indexation
-logique `err_bis[err_bis.>0]`.
+On peut ensuite afficher l'évolution des erreurs selon l'itération.
+
+!!! warning "Avertissement"
+    Il est important de sélectionner les éléments non-nuls des vecteurs
+    `err_bis`, `err_sec`, `err_new` et `err_fixe` afin de pouvoir les afficher
+    avec un axe logarithmique (`yscale=:log10`). Pour ce faire, on peut
+    utiliser l'indexation logique `err_bis[err_bis.>0]`.
 
 ```@example 1
 plot(1:length(err_bis[err_bis.>0]),err_bis[err_bis.>0],label="Bissection")
