@@ -46,8 +46,20 @@ que les packages suivants d'Atom sont installés:
 
 ## Installation du package MTH2210_Julia
 
-Les packages suivants seront installés avec le package `MTH2210_Julia`:
+Afin d'installer le package `MTH2210_Julia`, vous devez éxécuter la commande
+suivante dans la console de Julia.
 
-- Affichage de graphique : [Plots](http://docs.juliaplots.org/latest/)
-- Génération d'un rapport : [Weave](http://weavejl.mpastell.com/stable/)
-- Fonctions du cours : [MTH2210_Julia.jl](https://github.com/AntoninPaquette/MTH2210_Julia.jl)
+```julia
+Pkg.add(PackageSpec(url="https://github.com/AntoninPaquette/MTH2210_Julia.jl.git", rev="master"))
+```
+
+Les packages suivants doivent aussi être installés:
+
+- Affichage de graphique : [Plots](http://docs.juliaplots.org/latest/),
+- Génération d'un rapport : [Weave](http://weavejl.mpastell.com/stable/).
+
+Pour ce faire, vous devez appeler la fonction MTH2210_setup
+
+```julia
+MTH2210_setup()
+```

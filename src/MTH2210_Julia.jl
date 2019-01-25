@@ -1,9 +1,14 @@
 module MTH2210_Julia
 
 using LinearAlgebra
+using Pkg
 using Printf
 using SparseArrays
 using Statistics
+
+include("MTH2210_setup.jl")
+
+export MTH2210_setup
 
 include("lagrange.jl")
 include("splinec.jl")
