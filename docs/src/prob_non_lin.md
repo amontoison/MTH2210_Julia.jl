@@ -85,7 +85,11 @@ plot!(1:length(err_sec[err_sec.>0]),err_sec[err_sec.>0],label="Sécante")
 plot!(1:length(err_new[err_new.>0]),err_new[err_new.>0],label="Newton")
 plot!(1:length(err_fixe[err_fixe.>0]),err_fixe[err_fixe.>0],label="Pt-fixe",
       xlabel="nb itérations",ylabel="Erreur absolue",yscale=:log10)
+plot!([],[],label="",size=(400,300)); savefig("nl-plot.png"); nothing # hide
 ```
+
+![Erreurs pour les algorithmes de résolution d'équation non-linéaire](nl-plot.png)
+
 Les tableaux des ratios des erreurs peuvent aussi être produits pour les
 méthodes des points-fixes, de la sécante et de Newton:
 

@@ -51,14 +51,16 @@ tf = 4.
 tspan = [t0,tf]
 z0 = [5.,0.]
 nbpas = 1000
-(temps, z) = euler(my_edo , tspan , z0 , nbpas)
+(temps, z) = euler(my_edo, tspan , z0 , nbpas)
 nothing # hide
 ```
 
 Les résultats peuvent ensuite être affichés dans un graphique.
 
 ```@example 1
-y_exacte =  
 plot(temps,z[:,1],label="y(t)")
 plot!(temps,z[:,2],label="y'(t)",xlabel="temps [s]")
+plot!([],[],label="",size=(400,300)); savefig("edo-plot.png"); nothing # hide
 ```
+
+![Solutions numériques du systèmes d'EDOs](edo-plot.png)

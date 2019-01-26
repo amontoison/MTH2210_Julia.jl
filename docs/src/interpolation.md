@@ -32,7 +32,11 @@ Lx = lagrange(xi , yi , xfin)
 
 plot(xi,yi,linetype=:scatter,label="Pt inter")
 plot!(xfin,Lx,label="P3(x)",xlabel="x",legend=:bottomright)
+plot!([],[],label="",size=(400,300)); savefig("lagrange-plot.png"); nothing # hide
 ```
+
+![Interpolation de Lagrange](lagrange-plot.png)
+
 
 ## Exemple d'interpolation avec la méthode des splines cubiques
 
@@ -44,4 +48,7 @@ Sx = splinec(xi , yi , xfin , [4,2] , [10.,50.])
 
 plot(xi,yi,linetype=:scatter,label="Pt inter")
 plot!(xfin,Sx,label="Spline cubique",xlabel="x",legend=:bottomright)
+plot!([],[],label="",size=(400,300)); savefig("splinec-plot.png"); nothing # hide
 ```
+
+![Interpolation avec spline cubique](splinec-plot.png)
