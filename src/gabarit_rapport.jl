@@ -12,8 +12,7 @@ gr()
 using LinearAlgebra
 using Printf
 using Statistics
-push!(LOAD_PATH,"C:\\Users\\Antonin\\Documents\\Antonin\\Maitrise\\MTH2210_codes\\New_codes\\MTH2210_Julia\\src")
-using MTH2210Julia
+using MTH2210_Julia
 
 #' ## Exercice 1 - Quelques opérations simples
 
