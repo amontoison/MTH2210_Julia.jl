@@ -1,9 +1,9 @@
 # Global scope
 z = 10
 
-#for t=1:10
-#    z = z + 1
-#end
+for t=1:10
+    z = z + 1
+end
 
 function test1()
     println(z)

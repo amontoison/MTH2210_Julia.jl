@@ -1,3 +1,7 @@
+"""
+Script vérifiant les algorithmes de résolution d'équations différentielles
+partielles
+"""
 using Plots
 push!(LOAD_PATH,"C:\\Users\\Antonin\\Documents\\Antonin\\Maitrise\\MTH2210_codes\\New_codes\\MTH2210_Julia\\src")
 using MTH2210_Julia
@@ -39,10 +43,10 @@ for t=1:nb_eval
     for tt=1:length(temps)
         sol_exacte_mat[tt,:] = sol_exacte(temps[tt])
     end
-    err_euler_exp[t]        =   norm(abs.(y_euler_exp - sol_exacte_mat),Inf)
-    err_euler_mod[t]        =   norm(abs.(y_euler_mod - sol_exacte_mat),Inf)
-    err_pt_milieu[t]        =   norm(abs.(y_pt_milieu - sol_exacte_mat),Inf)
-    err_rk4[t]              =   norm(abs.(y_rk4 - sol_exacte_mat),Inf)
+    err_euler_exp[t]        =   norm(y_euler_exp - sol_exacte_mat,Inf)
+    err_euler_mod[t]        =   norm(y_euler_mod - sol_exacte_mat,Inf)
+    err_pt_milieu[t]        =   norm(y_pt_milieu - sol_exacte_mat,Inf)
+    err_rk4[t]              =   norm(y_rk4 - sol_exacte_mat,Inf)
 end
 
 # Calcul de l'ordre
