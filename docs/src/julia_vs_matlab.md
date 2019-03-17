@@ -255,7 +255,7 @@ E[2:3,[1,3]] .= -4
 ## Passer par valeur ou par référence?
 
 Une différence majeure entre MatLab et Julia est le fait que MatLab effectue des
-copies de ces variables, alors que 
+copies de ces variables, alors que
 
 
 ## Scope des variables
@@ -266,18 +266,73 @@ global scope vs parent scope vs local scope
 
 ## Plot
 
-semilogy et loglog n'accepte pas les zeros
+Afin d'afficher des graphiques avec Julia, il faut utiliser le *package* [Plots](http://docs.juliaplots.org/latest/),
+en employant la commande `using Plots`. Les attributs spécifiant les propriétés
+des courbes et des graphiques doivent être décrites lors de la création de
+ces mêmes courbes, comparativement à Matlab. L'exemple suivant permet de créer
+une courbe rouge représentant la fonction sin et une courbe bleue représentant
+la fonction cos.
 
+```@repl 10
+using Plots
+
+x = LinRange(-2*pi,2*pi,250); y1 = sin.(x); y2 = cos.(x);
+
+plot(x,y1,label="sin(x)",color="red")
+plot!(x,y2,label="cos(x)",color="blue",xlabel="x",ylabel="y",title="Un premier graphique")
+
+plot!([],[],label="",size=(400,300)); savefig("tutorial-plot1.png"); nothing # hide
+```
+
+![Graphique #1](tutorial-plot1.png)
+
+Le titre de chaque courbe est spécifié avec l'attribut `label` et la couleur
+avec l'attribut `color`. Pour afficher plusieurs courbes sur le même graphique,
+il faut utiliser la commande terminée par un `!` (ici la commande est `plot!`).
+Finalement, le titre des axes et du graphiques sont spécifiés.
+
+Afin d'afficher des points sur un graphique, on change l'attribut `linetype`
+pour `scatter`.
+
+```@repl 10
+y3 = 2 .* rand(length(x)) .- 1;
+
+plot!(x,y3,label="random",color="green",linetype="scatter")
+
+plot!([],[],label="",size=(400,300)); savefig("tutorial-plot2.png"); nothing # hide
+```
+
+![Graphique #1](tutorial-plot2.png)
+
+Afin de créer un graphique avec des axes en base logerithmiques, il faut employer
+l'attribut `xscale=:log10` pour l'axe x ou `yscale=:log10` pour l'axe y. Le
+package `Plots` génèrera toutefois des erreurs si des éléments sont nuls ou
+négatifs lorsque l'on emploie des axes logarithmiques. Il faut donc seulement
+selectionner les éléments strictement plus grand que 0.
+
+```@repl 10
+data_x = 1:5;
+data_y = [1e-3,1e-7,-1e-4,1e-5,0];
+
+plot(data_x[data_y.>0],data_y[data_y.>0],yscale=:log10,title="Graphique avec axe y de type log")
+
+plot!([],[],label="",size=(400,300)); savefig("tutorial-plot3.png"); nothing # hide
+```
+
+![Graphique #2](tutorial-plot3.png)
+
+La description complète des attributs des graphiques est disponible à ce lien [http://docs.juliaplots.org/latest/attributes/](http://docs.juliaplots.org/latest/attributes/).
 
 ## Fonctions usuelles
 
-norme vecteur vs norme matrice
-maximum,minimum
-linspace
+Le tableau suivant se veut un recensement non-exhaustif de certaines commandes
+usuelles sur MatLab et Julia
 
-
-```@example
-a = 1
-b = 2
-a + b
-```
+| Opération                     | MatLab    | Julia     | Librairie requise     |
+| :---:                         | :---:     | :--:      | :--:                  |
+| Vecteur linéairement espacé   | linspace  | LinRange  |                       |
+| Norme d'un vecteur            | norm      | norm      | LinearAlgebra         |
+| Norm d'une matrice            | norm      | opnorm    | LinearAlgebra         |
+| Valeur maximale d'un array    | max       | maximum   |                       |
+| Valeur minimale d'un array    | min       | minimum   |                       |
+| Affichage sur la console      | fprintf   | @printf   | Printf                |

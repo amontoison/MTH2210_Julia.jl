@@ -30,7 +30,7 @@ yi = [2.,-4.,10.,5.]
 xfin = LinRange(minimum(xi),maximum(xi),250)
 Lx = lagrange(xi , yi , xfin)
 
-plot(xi,yi,linetype=:scatter,label="Pt inter")
+plot(xi,yi,linetype="scatter",label="Pt inter")
 plot!(xfin,Lx,label="P3(x)",xlabel="x",legend=:bottomright)
 plot!([],[],label="",size=(400,300)); savefig("lagrange-plot.png"); nothing # hide
 ```
@@ -46,7 +46,7 @@ précédents. On impose que ``S'(x_0) = 10`` et ``S''(x_3) = 50``.
 ```@example 1
 Sx = splinec(xi , yi , xfin , [4,2] , [10.,50.])
 
-plot(xi,yi,linetype=:scatter,label="Pt inter")
+plot(xi,yi,linetype="scatter",label="Pt inter")
 plot!(xfin,Sx,label="Spline cubique",xlabel="x",legend=:bottomright)
 plot!([],[],label="",size=(400,300)); savefig("splinec-plot.png"); nothing # hide
 ```
