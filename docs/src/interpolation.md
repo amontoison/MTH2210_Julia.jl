@@ -5,15 +5,12 @@ premier type d'interpolation consiste à résoudre le problème suivant:
 Connaissant les ``n+1`` points d'interpolation ``(x_0,y_0),(x_1,y_1),\ldots,
 (x_n,y_n)``, on cherche le polynôme ``p`` de degré ``n`` tel que ``p(x_0)=y_0,
 p(x_1)=y_1,\ldots,p(x_n)=y_n``. L'algorithme disponible pour résoudre ce
-problème est:
-1. Méthode de Lagrange: [`lagrange`](@ref)
-
-L'algorithme est une version autre que celle du cours et est basé sur
+problème est la méthode de Lagrange: [`lagrange`](@ref). L'algorithme employée
+est une version autre que celle du cours et est basé sur
 *Barycentric Lagrange Interpolation* (Berrut J. et Trefethen L.N.).
 
 Une autre méthode d'interpolation est la spline cubique et l'algorithme
-disponible est:
-1. Méthode des splines cubiques: [`splinec`](@ref)
+disponible est la méthode des splines cubiques: [`splinec`](@ref)
 
 ## Exemple d'interpolation avec la méthode de Lagrange
 

@@ -11,24 +11,24 @@ des points-fixes:
 
 # Entrée
     1.  fct         -   Fonction g
-    2.  x0          -   Approximation initiale
-	4.  nb_it_max   -   Nombre maximum d'itérations
-    5.  tol_rel     -   Tolérance sur l'approximation de l'erreur relative
+    2.  x0          -   (Float) Approximation initiale
+	4.  nb_it_max   -   (Integer) Nombre maximum d'itérations
+    5.  tol_rel     -   (Float) Tolérance sur l'approximation de l'erreur relative
 
 # Sortie
-    1.  approx      -   Vecteur de taille nb_iter contenant les	itérations
-    2.  err_abs     -   Vecteur de dimension nb_iter contenant les erreurs absolues
+    1.  approx      -   (Array{Float,1}) Vecteur de taille nb_iter contenant les itérations
+    2.  err_abs     -   (Array{Float,1}) Vecteur de dimension nb_iter contenant les erreurs absolues
 
 # Exemples d'appel
-```julia
-(approx , err_abs) = ptfixes( (x) -> -x^2/10 + x + 1 , 3. , 25 , 1e-9)
-```
 ```julia
 function my_fct_nl(x)
     g = -x^2/10 + x + 1
     return g
 end
 (approx , err_abs) = ptfixes(my_fct_nl , 3. , 25 , 1e-9)
+```
+```julia
+(approx , err_abs) = ptfixes( (x) -> -x^2/10 + x + 1 , 3. , 25 , 1e-9)
 ```
 """
 function ptfixes(fct::Function , x0::T ,

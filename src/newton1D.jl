@@ -12,18 +12,15 @@ de Newton:
 # Entrée
     1.  fct         -   Fonction f
     2.  dfct        -   Dérivée de la fonction f
-    3.  x0          -   Approximation initiale
-    4.  nb_it_max   -   Nombre maximum d'itérations
-    5.  tol_rel     -   Tolérance sur l'approximation de l'erreur relative
+    3.  x0          -   (Float) Approximation initiale
+    4.  nb_it_max   -   (Integer) Nombre maximum d'itérations
+    5.  tol_rel     -   (Float) Tolérance sur l'approximation de l'erreur relative
 
 # Sortie
-    1.  approx      -   Vecteur de taille nb_iter contenant les itérations
-    2.  err_abs     -   Vecteur de dimension nb_iter contenant les erreurs absolues
+    1.  approx      -   (Array{Float,1}) Vecteur de taille nb_iter contenant les itérations
+    2.  err_abs     -   (Array{Float,1}) Vecteur de dimension nb_iter contenant les erreurs absolues
 
 # Exemples d'appel
-```julia
-(approx , err_abs) = newton1D((x) -> x^2 - 10 , (x) -> 2*x , 3. , 20 , 1e-9)
-```
 ```julia
 function my_fct_nl(x)
     f = x^2 - 10
@@ -34,6 +31,9 @@ function my_dfct_nl(x)
     return df
 end
 (approx , err_abs) = newton1D(my_fct_nl , my_dfct_nl , 3. , 20 , 1e-9)
+```
+```julia
+(approx , err_abs) = newton1D((x) -> x^2 - 10 , (x) -> 2*x , 3. , 20 , 1e-9)
 ```
 """
 function newton1D(fct::Function , dfct::Function , x0::T ,

@@ -3,6 +3,7 @@ Script vérifiant les algorithmes d'interpolation
 """
 
 using Plots
+#using Test
 push!(LOAD_PATH,"C:\\Users\\Antonin\\Documents\\Antonin\\Maitrise\\MTH2210_codes\\New_codes\\MTH2210_Julia\\src")
 using MTH2210_Julia
 using LinearAlgebra
@@ -20,8 +21,10 @@ y_inter		=	lagrange(xi,yi,xfin)
 y_exacte	=	fct1.(xfin)
 
 err_rel1	=	norm(y_exacte - y_inter)/norm(y_exacte)
+#@test err_rel1 < 1e-12
 
-# Vérification de la fonction lagrange pour polynôme 1
+
+# Vérification de la fonction lagrange pour polynôme 2
 
 fct2(x)	= 	(x-2)^2 * (x+5)^3 * (x-exp(1))^4
 
@@ -33,21 +36,21 @@ y_inter		=	lagrange(xi,yi,xfin)
 y_exacte	=	fct2.(xfin)
 
 err_rel2	=	norm(y_exacte - y_inter)/norm(y_exacte)
-
+@test err_rel2 < 1e-12
 
 # Vérification avec un fonction quelconque
 
-fct3(x)	=	cos(x)
+fct3(x)	=	exp(x)
 
-degre	=	2
+degre	=	3
 nb_pts	=	degre + 1
 nb_loop		=	10
 
-x_interet	=	[1/2^nb_loop]
+x_interet	=	1 .+ [1/2^nb_loop]
 erreur 		=	zeros(nb_loop)
 
 for t=1:nb_loop
-	xi	=	LinRange(-1/2^(t-1),1/2^(t-1),nb_pts)
+	xi	=	1 .+ LinRange(-1/2^(t-1),1/2^(t-1),nb_pts)
 	yi	=	fct3.(xi)
 
 	y_inter		=	lagrange(xi,yi,x_interet)
@@ -55,7 +58,7 @@ for t=1:nb_loop
 end
 
 ordre	=	log.(erreur[1:end-1]./erreur[2:end]) ./ log(2)
-
+#@test abs(mean(ordre) - (degre+1)) < 0.1
 
 # Vérification de la fonction splinec
 
@@ -68,10 +71,9 @@ b		=	4
 nb_pts	=	3
 
 xi	=	LinRange(a,b,nb_pts)
-yi	=	fct4(xi)
+yi	=	fct4.(xi)
 x	=	LinRange(a,b,1000)
-y_exacte	=	fct4(x)
+y_exacte	=	fct4.(x)
 
-[ Sx ] = splinec( xi , yi , x , [4,4] , [d_fct4(a),d_fct4(b)]);
-
-err_rel4	=	norm(y_exacte - Sx)/norm(y_exacte)
+Sx1 = splinec( xi , yi , x , [2,2] , [d2_fct4(a),d2_fct4(b)])
+err_rel_spline1	=	norm(y_exacte - Sx1)/norm(y_exacte)

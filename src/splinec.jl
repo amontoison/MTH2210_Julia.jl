@@ -8,32 +8,36 @@ Sx = splinec(xi , yi , x , type_f , val_f)
 ```
 
 # Entrée
-    1.  xi          -   Abscisses des points d'interpolation
-    2.  yi          -   Ordonnées des points d'interpolation
-    3.  x           -   Points où la spline cubique est évaluée
-    4.  type_f      -   Type de conditions frontières imposées en x_0 et x_n
-    5.  val_f       -   Valeurs des conditions frontières imposées en x_0 et x_n
+    1.  xi          -   (Array{Float,1}) Abscisses des points d'interpolation
+    2.  yi          -   (Array{Float,1}) Ordonnées des points d'interpolation
+    3.  x           -   (Array{Float,1}) Points où la spline cubique est évaluée
+    4.  type_f      -   (Array{Integer,1}) Vecteur des types de conditions frontières
+                        imposées en x_0 et x_n. Les choix possibles sont:
+                            [1,1] -> Spline naturelle
+                            [2,2] -> Spline avec courbure prescrite
+                            [3,3] -> Spline avec courbure constane
+                            [4,4] -> Spline avec pente prescrite
+                            [i,j] -> Spline avec condition i imposée en x0 et
+                                     condition j imposée en xn
 
+    5.  val_f       -   (Array{Float,1}) Vecteur des valeurs des conditions frontières
+                        imposées en x_0 et x_n. Les choix possibles sont:
+                            - Si type_S[1] = 1 ou 3, alors val_S[1] = NaN
+                            - Si type_S[1] = 2 ou 4, alors val_S[1] = a, où a
+                              représente resp. la courbure ou la pente en x0
+                            - Si type_S[2] = 1 ou 3, alors val_S[2] = NaN
+                            - Si type_S[2] = 2 ou 4, alors val_S[2] = b, où b
+                              représente resp. la courbure ou la pente en xn
 # Sortie
-    1.  Sx          -   Valeur de la spline cubique aux points x
+    1.  Sx          -   (Array{Float,1}) Valeur de la spline cubique aux points x
 
 # Exemples d'appel
 ```julia
-function my_sys_nl(x)
-	F = zeros(eltype(x),length(x))
-	F[1] = x[1]^2 + x[2]^2 - 1
-	F[2] = -x[1]^2 + x[2]
-	return F
-end
-function my_sys_nl_jac(x)
-	jac = zeros(eltype(x),length(x),length(x))
-	jac[1,1] = 2*x[1]
-	jac[1,2] = 2*x[2]
-	jac[2,1] = -2*x[1]
-	jac[2,2] = 1
-	return jac
-end
-Sx = splinec(my_sys_nl , my_sys_nl_jac , [1.,1.] , 20 , 1e-9)
+Sx = splinec([1.,2.,4.,5.] , [1.,9.,2.,11.] , LinRange(1,5,200) , [1,1] , [NaN,NaN])
+Sx = splinec([1.,2.,4.,5.] , [1.,9.,2.,11.] , LinRange(1,5,200) , [2,2] , [5.,-6.])
+Sx = splinec([1.,2.,4.,5.] , [1.,9.,2.,11.] , LinRange(1,5,200) , [3,3] , [NaN,NaN])
+Sx = splinec([1.,2.,4.,5.] , [1.,9.,2.,11.] , LinRange(1,5,200) , [4,4] , [-30.,-10.])
+Sx = splinec([1.,2.,4.,5.] , [1.,9.,2.,11.] , LinRange(1,5,200) , [3,4] , [NaN,-10.])
 ```
 """
 function splinec(xi::AbstractArray{T,1}, yi::AbstractArray{T,1} ,
@@ -122,7 +126,7 @@ end
 
 
 """
-Table des différences divisées
+Calcul de la table des différences divisées
 
 # Syntaxe
 ```julia
@@ -130,13 +134,13 @@ table_df = divided_difference(xi , yi )
 ```
 
 # Entrée
-    1.  xi         	-   Abscisses des points d'interpolation
-    2.  yi        	-   Ordonnées des points d'interpolation
+    1.  xi         	-   (Array{Float,1}) Abscisses des points d'interpolation
+    2.  yi        	-   (Array{Float,1}) Ordonnées des points d'interpolation
 
 # Sortie
-    1.  table_df 	-   Table des différences divisées: la 1ère colonne
-                        contient les premières différences divisées, la 2ème
-                        colonne (jusqu'à la ligne end-1) contient les deuxièmes
+    1.  table_df 	-   (Array{Float,2}) Table des différences divisées: la 1ère
+                        colonne contient les premières différences divisées, la
+                        2ème colonne (jusqu'à la ligne end-1) contient les deuxièmes
                         différences divisées,...
 
 # Exemples d'appel

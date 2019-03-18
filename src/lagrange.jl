@@ -7,30 +7,16 @@ Lx = lagrange(xi , yi , x)
 ```
 
 # Entrée
-    1.  xi          -   Abscisses des points d'interpolation
-    2.  yi          -   Ordonnées des points d'interpolation
-    3.  x           -   Points où le polynôme d'interpolation est évalué
+    1.  xi          -   (Array{Float,1}) Abscisses des points d'interpolation
+    2.  yi          -   (Array{Float,1}) Ordonnées des points d'interpolation
+    3.  x           -   (Array{Float,1}) Points où le polynôme d'interpolation est évalué
 
 # Sortie
-    1.  Lx          -   Valeur du polynôme aux points x
+    1.  Lx          -   (Array{Float,1}) Valeur du polynôme aux points x
 
 # Exemples d'appel
 ```julia
-function my_sys_nl(x)
-	F = zeros(eltype(x),length(x))
-	F[1] = x[1]^2 + x[2]^2 - 1
-	F[2] = -x[1]^2 + x[2]
-	return F
-end
-function my_sys_nl_jac(x)
-	jac = zeros(eltype(x),length(x),length(x))
-	jac[1,1] = 2*x[1]
-	jac[1,2] = 2*x[2]
-	jac[2,1] = -2*x[1]
-	jac[2,2] = 1
-	return jac
-end
-Lx = lagrange(my_sys_nl , my_sys_nl_jac , [1.,1.] , 20 , 1e-9)
+Lx = lagrange([-1.,0.,1.] , [1.,0.,1.] , LinRange(-1,1,200))
 ```
 """
 function lagrange(xi::AbstractArray{T,1}, yi::AbstractArray{T,1},

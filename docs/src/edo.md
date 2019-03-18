@@ -1,6 +1,6 @@
 # Résolution d'équations différentielles ordinaires
 
-Cette section est dédiée à la résolution numérique d'équations ordinaires de forme
+Cette section est dédiée à la résolution numérique d'équations ordinaires de forme:
 
 ``\frac{dY}{dt}(t) = F(t,Y(t)) \quad \text{avec} \quad Y(t_0) = Y_0``.
 
@@ -17,16 +17,16 @@ de masse ``m=2\,\text{kg}`` et de constante de rappel ``k=3\,\text{N/m}``:
 
 `` \frac{d^2 y}{dt^2}(t) = -\frac{k}{m} y(t) \quad \text{avec} \quad y(1) = 5 \text{ et } \frac{d y}{dt}(1) =0``.
 
-On s'intéresse à la solution entre ``t_0=1\,\text{s}`` et ``t_f = 4\,\text{s}``. On doit tout d'abord effectuer un changement de variables
+On s'intéresse à la solution entre ``t_0=1\,\text{s}`` et ``t_f = 4\,\text{s}``. On doit tout d'abord effectuer un changement de variables:
 
 ``z_1(t) = y(t)\\ z_2(t) = \frac{d y}{dt}(t)``
 
-afin de transformer l'EDO d'ordre 2 en ce système d'EDOs d'ordre 1
+afin de transformer l'EDO d'ordre 2 en ce système d'EDOs d'ordre 1:
 
 ``\frac{d z_1}{dt}(t) = z_2(t)\\ \frac{d z_2}{dt}(t) = -\frac{k}{m}z_1(t)``
 
 On peut appliquer la méthode d'Euler explicite afin de résoudre ce système d'EDOs.
-De la même manière que précédemment, il faut créer la fonction ``F:\mathbb{R} \times \mathbb{R}^2 \to \mathbb{R}^2``
+Il faut donc créer la fonction ``F:\mathbb{R} \times \mathbb{R}^2 \to \mathbb{R}^2``:
 
 ```@example 1
 function my_edo(t,z)
@@ -40,7 +40,7 @@ end
 nothing # hide
 ```
 
-Il faut ensuite appeler la fonction [`euler`](@ref)
+Il faut ensuite appeler la fonction [`euler`](@ref):
 
 ```@example 1
 using MTH2210_Julia
@@ -59,7 +59,7 @@ Les résultats peuvent ensuite être affichés dans un graphique.
 
 ```@example 1
 plot(temps,z[:,1],label="y(t)")
-plot!(temps,z[:,2],label="y'(t)",xlabel="temps [s]")
+plot!(temps,z[:,2],label="y'(t)",xlabel="temps [s]",title="Approximation avec Euler exp.")
 plot!([],[],label="",size=(400,300)); savefig("edo-plot.png"); nothing # hide
 ```
 

@@ -13,21 +13,15 @@ jusqu'au temps ``t_f`` avec pas constant ``h``:
 
 # Entrée
     1.  fct     -   Fonction décrivant le système de N EDOs
-    2.  tspan   -   Vecteur contenant le temps initial et final (tspan=[t0,tf])
-    3.  Y0      -   Vecteur contenant les N conditions initiales
-    4.  nbpas   -   Entier spécifiant le nombre de pas de temps
+    2.  tspan   -   (Array{Float,1}) Vecteur contenant le temps initial et final (tspan=[t0,tf])
+    3.  Y0      -   (Array{Float,1}) Vecteur contenant les N conditions initiales
+    4.  nbpas   -   (Integer) Nombre de pas de temps
 
 # Sortie
-    1.  temps   -   Vecteur contenant les pas de temps
-    2.  Y       -   Matrice de dimension (nbpas+1) x N contenant les approximations
+    1.  temps   -   (Array{Float,1}) Vecteur contenant les pas de temps
+    2.  Y       -   (Array{Float,2}) Matrice de dimension (nbpas+1) x N contenant les approximations
 
 # Exemples d'appel
-```julia
-(t,y)   =   eulermod((t,y) -> cos(t) , [0.;2.] , [1.] , 1000)
-```
-```julia
-(t,y)   =   eulermod((t,y) -> [y[2];-y[1]] , [0.;10.] , [1.;0.] , 1000)
-```
 ```julia
 function my_edo(t,z)
     f = zeros(length(z))
@@ -36,6 +30,12 @@ function my_edo(t,z)
     return f
 end
 (t,y)   =   eulermod(my_edo , [0.;10.] , [1.;0.] , 1000)
+```
+```julia
+(t,y)   =   eulermod((t,y) -> cos(t) , [0.;2.] , [1.] , 1000)
+```
+```julia
+(t,y)   =   eulermod((t,y) -> [y[2];-y[1]] , [0.;10.] , [1.;0.] , 1000)
 ```
 """
 function eulermod(fct::Function, tspan::AbstractArray{T,1},

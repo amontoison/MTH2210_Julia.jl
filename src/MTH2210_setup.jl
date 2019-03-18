@@ -1,5 +1,5 @@
 """
-Installation des packages nécessaires pour l'affichage de graphique et la
+Installation des packages nécessaires pour l'affichage de graphiques et la
 génération d'un rapport sous format pdf ou HTML.
 """
 function MTH2210_setup()

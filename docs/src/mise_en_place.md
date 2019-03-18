@@ -2,7 +2,7 @@
 
 Les étapes permettant d'installer [Julia](https://julialang.org/) ainsi que les
 programmes nécessaires afin d'obtenir une interface de type *IDE* avec
-l'éditeur [Atom](https://atom.io/).
+l'éditeur [Atom](https://atom.io/) sont décrites dans cette section.
 
 ## Installation de Julia
 
@@ -49,7 +49,7 @@ que les packages suivants d'Atom sont installés:
 Afin d'installer le package `MTH2210_Julia`, vous devez éxécuter la commande
 suivante dans la console de Julia.
 
-```julia
+```@julia
 Pkg.add(PackageSpec(url="https://github.com/AntoninPaquette/MTH2210_Julia.jl.git", rev="master"))
 ```
 
@@ -58,8 +58,8 @@ Les packages suivants doivent aussi être installés:
 - Affichage de graphique : [Plots](http://docs.juliaplots.org/latest/),
 - Génération d'un rapport : [Weave](http://weavejl.mpastell.com/stable/).
 
-Pour ce faire, vous devez appeler la fonction MTH2210_setup
+Pour ce faire, vous devez appeler la fonction MTH2210_setup:
 
-```julia
+```@julia
 MTH2210_setup()
 ```

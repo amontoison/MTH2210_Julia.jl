@@ -13,13 +13,13 @@ de Newton:
 # Entrée
     1.  fct         -   Fonction F
     2.  dfct        -   Matrice jacobienne de la fonction F
-    3.  x0          -   Approximation initiale
-    4.  nb_it_max   -   Nombre maximum d'itérations
-    5.  tol_rel     -   Tolérance sur l'approximation de l'erreur relative
+    3.  x0          -   (Array{Float,1}) Vecteur des approximations initiales
+    4.  nb_it_max   -   (Integer) Nombre maximum d'itérations
+    5.  tol_rel     -   (Float) Tolérance sur l'approximation de l'erreur relative
 
 # Sortie
-    1.  approx      -   Matrice de taille (nb_iter x N) contenant les itérations
-    2.  err_abs     -   Vecteur de dimension nb_iter contenant les erreurs absolues
+    1.  approx      -   (Array{Float,2}) Matrice de taille (nb_iter x N) contenant les itérations
+    2.  err_abs     -   (Array{Float,1}) Vecteur de dimension nb_iter contenant les erreurs absolues
 
 # Exemples d'appel
 ```julia
@@ -58,7 +58,7 @@ function newtonNDder(fct::Function , jac::Function, x0::AbstractArray{T,1} ,
 
 	N = length(x0)
 
-	@time if ~isa(fct(x0),Vector{T}) || ~(length(fct(x0)) == N)
+	if ~isa(fct(x0),Vector{T}) || ~(length(fct(x0)) == N)
 		error(string("La fonction ",fct," ne retourne pas un vecteur de type ",
 	  	 			T, " ou de dimension ",N))
 	elseif ~isa(jac(x0),Array{T}) || ~(size(jac(x0)) == (N,N))
@@ -78,7 +78,7 @@ function newtonNDder(fct::Function , jac::Function, x0::AbstractArray{T,1} ,
 	mat_jac 	=	zeros(T,N,N)
 	deltax 		=	zeros(T,N)
 
-	@time for outer t=1:nb_it_max-1
+	for outer t=1:nb_it_max-1
 		mat_jac 	.= 	jac(view(app,:,t))
 		deltax 		.=	mat_jac \ (-fct(view(app,:,t)))
 		app[:,t+1]	.=	view(app,:,t) .+ deltax

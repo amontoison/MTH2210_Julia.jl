@@ -1,6 +1,6 @@
 """
 Résolution dun système non-linéaire de forme ``F(r)=0`` avec la méthode
-de Newton en approximant la jacobienne:
+de Newton en approximant la matrice jacobienne:
 
 ``\\Delta x = \\tilde{J}_F^{-1}(x_n) F(x_n)
 \\\\ x_{n+1} = x_n + \\Delta x ``
@@ -12,13 +12,13 @@ de Newton en approximant la jacobienne:
 
 # Entrée
     1.  fct         -   Fonction F
-    2.  x0          -   Approximation initiale
-    3.  nb_it_max   -   Nombre maximum d'itérations
-    4.  tol_rel     -   Tolérance sur l'approximation de l'erreur relative
+    2.  x0          -   (Array{Float,1}) Vecteur des approximations initiales
+    3.  nb_it_max   -   (Integer) Nombre maximum d'itérations
+    4.  tol_rel     -   (Float) Tolérance sur l'approximation de l'erreur relative
 
 # Sortie
-    1.  approx      -   Matrice de taille (nb_iter x N) contenant les itérations
-    2.  err_abs     -   Vecteur de dimension nb_iter contenant les erreurs absolues
+    1.  approx      -   (Array{Float,2}) Matrice de taille (nb_iter x N) contenant les itérations
+    2.  err_abs     -   (Array{Float,1}) Vecteur de dimension nb_iter contenant les erreurs absolues
 
 # Exemples d'appel
 ```julia
@@ -58,8 +58,8 @@ function newtonND(fct::Function , x0::AbstractArray{T,1} , nb_it_max::Integer,
 	mat_jac 	=	zeros(T,N,N)
 	deltax 	=	zeros(T,N)
 
-	@time for outer t=1:nb_it_max-1
-		@time mat_jac 	.= 	app_jac(fct,view(app,:,t),T)
+	for outer t=1:nb_it_max-1
+		mat_jac 	.= 	app_jac(fct,view(app,:,t),T)
 		deltax 		.=	mat_jac \ (-fct(view(app,:,t)))
 		app[:,t+1]	.=	view(app,:,t) .+ deltax
 
@@ -104,13 +104,13 @@ function app_jac(f,x,T)
  	h			=	h_init ./ (2 .^ (0:1))
 	vec_zero 	=	zeros(T,length(x))
 	mat_zero 	=	zeros(T,taille,taille)
-	appj 		=	Array{typeof(C),1}(undef,2)
+	appj 		=	Array{typeof(mat_zero),1}(undef,2)
 	appj[:] 	=	[mat_zero , mat_zero]
 	app_finale 	=	Array{T,2}(undef,taille,taille)
 	delta_h		=	Array{T,1}(undef,taille)
 	vec_zero 	=	Array{T,1}(undef,taille)
 
-	@time for t=1:2
+	for t=1:2
  		appj[t]		.=	mat_zero
  		for d=1:taille
  			delta_h		.=	vec_zero

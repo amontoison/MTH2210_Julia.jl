@@ -26,7 +26,7 @@ L'algorithme disponible pour trouver les points-fixes d'une fonction ``g`` est:
 ## Exemple de résolution d'une équation non-linéaire
 
 On cherche à calculer une approximation de ``\sqrt{10}`` en calculant la racine
-positive de ``f(x) = x^2 - 10``. On définit tout d'abord la fonction f:
+positive de ``f(x) = x^2 - 10``. On définit tout d'abord la fonction ``f``:
 
 ```@example 1
 function my_fct_nl(x)
