@@ -30,10 +30,10 @@ function my_dfct_nl(x)
     df = 2*x
     return df
 end
-(approx , err_abs) = newton1D(my_fct_nl , my_dfct_nl , 3. , 20 , 1e-9)
+(approx , err_abs) = newton1D(my_fct_nl , my_dfct_nl , 3 , 20 , 1e-9)
 ```
 ```julia
-(approx , err_abs) = newton1D((x) -> x^2 - 10 , (x) -> 2*x , 3. , 20 , 1e-9)
+(approx , err_abs) = newton1D((x) -> x^2 - 10 , (x) -> 2*x , 3 , 20 , 1e-9)
 ```
 """
 function newton1D(fct::Function , dfct::Function , x0::T ,
@@ -121,3 +121,6 @@ function check_derivative(f,df,x0,T)
 
     return test
 end
+
+newton1D(fct::Function , dfct::Function , x0::Real , nb_it_max::Integer ,
+		tol_rel::Real) = newton1D(fct , dfct , convert(Float64,x0) , nb_it_max, convert(Float64,tol_rel))

@@ -32,17 +32,17 @@ function my_edo(t,z)
     f[2] = -z[1]
     return f
 end
-(t,y)   =   rk4(my_edo , [0.;10.] , [1.;0.] , 1000)
+(t,y)   =   rk4(my_edo , [0;10] , [1;0] , 1000)
 ```
 ```julia
-(t,y)   =   rk4((t,y) -> cos(t) , [0.;2.] , [1.] , 1000)
+(t,y)   =   rk4((t,y) -> cos(t) , [0;2] , 1 , 1000)
 ```
 ```julia
-(t,y)   =   rk4((t,y) -> [y[2];-y[1]] , [0.;10.] , [1.;0.] , 1000)
+(t,y)   =   rk4((t,y) -> [y[2];-y[1]] , [0;10] , [1;0] , 1000)
 ```
 """
-function rk4(fct::Function, tspan::AbstractArray{T,1},
-            Y0::AbstractArray{T,1} , nbpas::Integer) where {T<:AbstractFloat}
+function rk4(fct::Function, tspan::Array{T,1},
+            Y0::Array{T,1} , nbpas::Integer) where {T<:AbstractFloat}
 
 
      # Vérification des arguments d'entrée
@@ -63,7 +63,7 @@ function rk4(fct::Function, tspan::AbstractArray{T,1},
          end
      end
 
-     if ~isa(fct(tspan[1],Y0),Array{T,1})
+     if ~isa(fct(tspan[1],Y0),T) && ~isa(fct(tspan[1],Y0),Array{T,1})
          error("La fonction f ne retourne pas un vecteur de type float")
      elseif (length(Y0) != length(fct(tspan[1],Y0)))
          error("Le nombre de composantes de Y0 et f ne concorde pas")
@@ -91,3 +91,9 @@ function rk4(fct::Function, tspan::AbstractArray{T,1},
      return  temps , transpose(Y)
 
 end
+
+rk4(fct::Function , tspan::AbstractArray{<:Real,1} , Y0::AbstractArray{<:Real,1} , 
+        nbpas::Integer) = rk4(fct, convert(Array{Float64,1},tspan), convert(Array{Float64,1},Y0) , nbpas)
+
+rk4(fct::Function , tspan::AbstractArray{<:Real,1} , Y0::Real ,
+        nbpas::Integer) = rk4(fct , tspan , [Y0] , nbpas)

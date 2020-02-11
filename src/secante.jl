@@ -26,10 +26,10 @@ function my_fct_nl(x)
     f = x^2 - 10
     return f
 end
-(approx , err_abs) = secante(my_fct_nl , 3. , 3.5 , 20 , 1e-9)
+(approx , err_abs) = secante(my_fct_nl , 3 , 3.5 , 20 , 1e-9)
 ```
 ```julia
-(approx , err_abs) = secante((x) -> x^2 - 10 , 3. , 3.5 , 20 , 1e-9)
+(approx , err_abs) = secante((x) -> x^2 - 10 , 3 , 3.5 , 20 , 1e-9)
 ```
 """
 function secante(fct::Function , x0::T , x1::T ,
@@ -83,3 +83,6 @@ function secante(fct::Function , x0::T , x1::T ,
 
      return approx , err_abs
 end
+
+secante(fct::Function , x0::Real , x1::Real , nb_it_max::Integer ,
+		tol_rel::Real) = secante(fct , convert(Float64,x0) , convert(Float64,x1) , nb_it_max , convert(Float64,tol_rel))

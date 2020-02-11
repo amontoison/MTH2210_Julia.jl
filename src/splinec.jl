@@ -33,16 +33,15 @@ Sx = splinec(xi , yi , x , type_f , val_f)
 
 # Exemples d'appel
 ```julia
-Sx = splinec([1.,2.,4.,5.] , [1.,9.,2.,11.] , LinRange(1,5,200) , [1,1] , [NaN,NaN])
-Sx = splinec([1.,2.,4.,5.] , [1.,9.,2.,11.] , LinRange(1,5,200) , [2,2] , [5.,-6.])
-Sx = splinec([1.,2.,4.,5.] , [1.,9.,2.,11.] , LinRange(1,5,200) , [3,3] , [NaN,NaN])
-Sx = splinec([1.,2.,4.,5.] , [1.,9.,2.,11.] , LinRange(1,5,200) , [4,4] , [-30.,-10.])
-Sx = splinec([1.,2.,4.,5.] , [1.,9.,2.,11.] , LinRange(1,5,200) , [3,4] , [NaN,-10.])
+Sx = splinec([1,2,4,5] , [1,9,2,11] , LinRange(1,5,200) , [1,1] , [NaN,NaN])
+Sx = splinec([1,2,4,5] , [1,9,2,11] , LinRange(1,5,200) , [2,2] , [5,-6])
+Sx = splinec([1,2,4,5] , [1,9,2,11] , LinRange(1,5,200) , [3,3] , [NaN,NaN])
+Sx = splinec([1,2,4,5] , [1,9,2,11] , LinRange(1,5,200) , [4,4] , [-30,-10])
+Sx = splinec([1,2,4,5] , [1,9,2,11] , LinRange(1,5,200) , [3,4] , [NaN,-10])
 ```
 """
-function splinec(xi::AbstractArray{T,1}, yi::AbstractArray{T,1} ,
-        x::AbstractArray{T,1} , type_f::AbstractArray{<:Integer,1} ,
-                val_f::AbstractArray{T,1}) where {T<:AbstractFloat}
+function splinec(xi::AbstractArray{<:Real,1}, yi::AbstractArray{<:Real,1} ,
+        x::AbstractArray{<:Real,1} , type_f::AbstractArray{<:Integer,1} , val_f::AbstractArray{<:Real,1})
 
     N = length(xi)
 
@@ -67,12 +66,12 @@ function splinec(xi::AbstractArray{T,1}, yi::AbstractArray{T,1} ,
     denom 		= 	h[1:end-1] .+ h[2:end]
     diag_below  =   vcat(h[1:end-1] ./ denom , 0)
     diag_above  =   vcat(0 , h[2:end] ./ denom)
-    diag_center =   vcat(0 , 2 .* ones(T,N-2) , 0)
+    diag_center =   vcat(0 , 2 .* ones(Float64,N-2) , 0)
 
     M = spdiagm(-1 => diag_below, 0 => diag_center , 1 => diag_above)
 
     # Calcul du terme de droite
-    B           		=   Array{T}(undef,N)
+    B           	=   NaN .* ones(Float64,N)
     B[2:end-1]  	=   6 .* divided_difference(xi,yi)[1:N-2,2]
 
     # Imposition des conditions frontières
@@ -111,8 +110,8 @@ function splinec(xi::AbstractArray{T,1}, yi::AbstractArray{T,1} ,
     Spp     =   M\B
 
     # Calcul de la spline aux points x
-    Sx  		=   Array{T}(undef,length(x))
-	x_inter 	=	Array{Bool}(undef,length(x))
+    Sx  		=   NaN .* ones(Float64,length(x))
+	x_inter 	=	trues(length(x))
 
 	for t=1:N-1
 		x_inter		.=	(x .>= xi[t]) .& (x .<= xi[t+1])
@@ -145,8 +144,8 @@ table_df = divided_difference(xi , yi )
 
 # Exemples d'appel
 ```julia
-xi = [2. , 0. , 5. , 3.]
-yi = [1. , -1. , 10. , -4.]
+xi = [2 , 0 , 5 , 3]
+yi = [1 , -1 , 10 , -4]
 
 table = divided_difference(xi,yi)
 diff_div1 = table[:,1]
@@ -154,11 +153,10 @@ diff_div2 = table[1:end-1,2]
 diff_div3 = table[1:end-2,3]
 ```
 """
-function divided_difference(xi::AbstractArray{T,1},
-                        yi::AbstractArray{T,1}) where {T<:AbstractFloat}
+function divided_difference(xi::AbstractArray{<:Real,1} , yi::AbstractArray{<:Real,1})
 
     nb          =   length(xi)
-    div_f       =   NaN*ones(AbstractFloat,nb-1,nb-1)
+    div_f       =   NaN .* ones(Float64,nb-1,nb-1)
 
     div_f[:,1]  .=  diff(yi) ./ diff(xi)
 

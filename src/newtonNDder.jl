@@ -37,10 +37,10 @@ function my_sys_nl_jac(x)
 	jac[2,2] = 1
 	return jac
 end
-(approx , err_abs) = newtonNDder(my_sys_nl , my_sys_nl_jac , [1.,1.] , 20 , 1e-9)
+(approx , err_abs) = newtonNDder(my_sys_nl , my_sys_nl_jac , [1,1] , 20 , 1e-9)
 ```
 """
-function newtonNDder(fct::Function , jac::Function, x0::AbstractArray{T,1} ,
+function newtonNDder(fct::Function , jac::Function, x0::Array{T,1} ,
 				nb_it_max::Integer, tol_rel::T) where {T<:AbstractFloat}
 
 
@@ -126,8 +126,8 @@ function check_jac(f,jac,x0,T)
  	erreur	=	NaN * ones(T,length(h))
 	vec_zero 	=	zeros(T,length(x0))
 	mat_zero 	=	zeros(T,taille,taille)
-	app 		=	Array{T,2}(undef,taille,taille)
-	delta_h		=	Array{T,1}(undef,taille)
+	app 		=	zeros(T,taille,taille)
+	delta_h		=	zeros(T,taille)
 
  	for t=1:length(h)
  		app		.=	mat_zero
@@ -148,3 +148,6 @@ function check_jac(f,jac,x0,T)
 	return test
 
 end
+
+newtonNDder(fct::Function , jac::Function, x0::AbstractArray{<:Real,1} , nb_it_max::Integer ,
+		tol_rel::Real) = newtonNDder(fct , jac, convert(Array{Float64,1},x0) , nb_it_max , convert(Float64,tol_rel))

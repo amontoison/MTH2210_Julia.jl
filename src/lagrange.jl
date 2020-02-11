@@ -16,7 +16,7 @@ Lx = lagrange(xi , yi , x)
 
 # Exemples d'appel
 ```julia
-Lx = lagrange([-1.,0.,1.] , [1.,0.,1.] , LinRange(-1,1,200))
+Lx = lagrange([-1,0,1] , [1,0,1] , LinRange(-1,1,200))
 ```
 """
 function lagrange(xi::AbstractArray{T,1}, yi::AbstractArray{T,1},
@@ -57,3 +57,7 @@ function lagrange(xi::AbstractArray{T,1}, yi::AbstractArray{T,1},
 
     return Lx
 end
+
+lagrange(xi::AbstractArray{<:Real,1}, yi::AbstractArray{<:Real,1},
+    x::AbstractArray{<:Real,1}) = lagrange(convert(Array{Float64,1},xi),convert(Array{Float64,1},yi),
+        convert(Array{Float64,1},x))

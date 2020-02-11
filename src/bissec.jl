@@ -24,10 +24,10 @@ function my_fct_nl(x)
     f = x^2 - 10
     return f
 end
-(approx , err_abs) = bissec(my_fct_nl , 3. , 3.5 , 20 , 1e-9)
+(approx , err_abs) = bissec(my_fct_nl , 3 , 3.5 , 200 , 1e-9)
 ```
 ```julia
-(approx , err_abs) = bissec((x) -> x^2 - 10 , 3. , 3.5 , 20 , 1e-9)
+(approx , err_abs) = bissec((x) -> x^2 - 10 , 3 , 3.5 , 200 , 1e-9)
 ```
 """
 function bissec(fct::Function , x0::T , x1::T ,
@@ -122,3 +122,6 @@ function bissec(fct::Function , x0::T , x1::T ,
 
      return approx , err_abs
 end
+
+bissec(fct::Function , x0::Real , x1::Real , nb_it_max::Integer ,
+		tol_rel::Real) = bissec(fct , convert(Float64,x0) ,	convert(Float64,x1) , nb_it_max , convert(Float64,tol_rel))

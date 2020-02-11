@@ -25,13 +25,13 @@ de Newton en approximant la matrice jacobienne:
 function my_sys_nl(x)
 	F = zeros(eltype(x),length(x))
 	F[1] = x[1]^2 + x[2]^2 - 1
-	F[2] = -x[1]^2 + x[2]
+	F[2] = -x[1]^4 + x[2]
 	return F
 end
-(approx , err_abs) = newtonND(my_sys_nl , [1.,1.] , 20 , 1e-9)
+(approx , err_abs) = newtonND(my_sys_nl , [1,1] , 20 , 1e-9)
 ```
 """
-function newtonND(fct::Function , x0::AbstractArray{T,1} , nb_it_max::Integer,
+function newtonND(fct::Function , x0::Array{T,1} , nb_it_max::Integer,
 						tol_rel::T) where {T<:AbstractFloat}
 
 
@@ -104,11 +104,10 @@ function app_jac(f,x,T)
  	h			=	h_init ./ (2 .^ (0:1))
 	vec_zero 	=	zeros(T,length(x))
 	mat_zero 	=	zeros(T,taille,taille)
-	appj 		=	Array{typeof(mat_zero),1}(undef,2)
-	appj[:] 	=	[mat_zero , mat_zero]
-	app_finale 	=	Array{T,2}(undef,taille,taille)
-	delta_h		=	Array{T,1}(undef,taille)
-	vec_zero 	=	Array{T,1}(undef,taille)
+	appj 		=	[mat_zero , mat_zero]
+	app_finale 	=	zeros(T,taille,taille)
+	delta_h		=	zeros(T,taille)
+	vec_zero 	=	zeros(T,taille)
 
 	for t=1:2
  		appj[t]		.=	mat_zero
@@ -124,3 +123,6 @@ function app_jac(f,x,T)
 	return app_finale
 
 end
+
+newtonND(fct::Function , x0::AbstractArray{<:Real,1} , nb_it_max::Integer,
+		tol_rel::Real) = newtonND(fct , convert(Array{Float64,1},x0) , nb_it_max , convert(Float64,tol_rel))
