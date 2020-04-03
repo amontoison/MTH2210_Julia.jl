@@ -6,7 +6,7 @@ end
 function my_dfct_nl(x)
     df = 2*x
     return df
-end</code></pre><p>On appelle ensuite les fonctions <a href="../fct_index/#MTH2210.bissec-Union{Tuple{T}, Tuple{Function,T,T,Integer,T}} where T&lt;:AbstractFloat"><code>bissec</code></a>, <a href="../fct_index/#MTH2210.secante-Union{Tuple{T}, Tuple{Function,T,T,Integer,T}} where T&lt;:AbstractFloat"><code>secante</code></a> et <a href="../fct_index/#MTH2210.newton1D-Union{Tuple{T}, Tuple{Function,Function,T,Integer,T}} where T&lt;:AbstractFloat"><code>newton1D</code></a> afin de résoudre ce problème. On choisit <span>$x_0=2.5$</span> et <span>$x_1=4$</span> de sorte que <span>$f(x_0)f(x_1)&lt;0$</span> et une tolérance sur l&#39;erreur relative de <span>$tol=10^{-9}$</span>.</p><pre><code class="language-">using MTH2210
+end</code></pre><p>On appelle ensuite les fonctions <a href="../fct_index/#MTH2210.bissec-Union{Tuple{T}, Tuple{Function,T,T,Integer,T}} where T&lt;:AbstractFloat"><code>bissec</code></a>, <a href="../fct_index/#MTH2210.secante-Union{Tuple{T}, Tuple{Function,T,T,Integer,T}} where T&lt;:AbstractFloat"><code>secante</code></a> et <a href="../fct_index/#MTH2210.newton1D-Union{Tuple{T}, Tuple{Function,Function,T,Integer,T}} where T&lt;:AbstractFloat"><code>newton1D</code></a> afin de résoudre ce problème. On choisit <span>$x_0=2.5$</span> et <span>$x_1=4$</span> de sorte que <span>$f(x_0)f(x_1)&lt;0$</span> et une tolérance sur l&#39;erreur relative de <span>$tol=10^{-9}$</span>.</p><pre><code class="language-julia">using MTH2210
 using Plots
 using Printf
 
@@ -15,18 +15,20 @@ x1 = 4.
 tol = 1e-9
 (approx_bis , err_bis) = bissec(my_fct_nl , x0 , x1 , 100 , tol)
 (approx_sec , err_sec) = secante(my_fct_nl , x0 , x1 , 50 , tol)
-(approx_new , err_new) = newton1D(my_fct_nl , my_dfct_nl , x0 , 20 , tol)
-nothing # hide</code></pre><p>La méthode des points-fixes peut aussi être employée pour approximer <span>$\sqrt{10}$</span>. On considère la fonction <span>$g(x) = -\frac{x^2}{10} + x+ 1$</span> dont un point-fixe est <span>$\sqrt{10}$</span></p><pre><code class="language-">function g(x)
+(approx_new , err_new) = newton1D(my_fct_nl , my_dfct_nl , x0 , 20 , tol)</code></pre><p>La méthode des points-fixes peut aussi être employée pour approximer <span>$\sqrt{10}$</span>. On considère la fonction <span>$g(x) = -\frac{x^2}{10} + x+ 1$</span> dont un point-fixe est <span>$\sqrt{10}$</span></p><pre><code class="language-julia">function g(x)
     g = -x^2/10 + x + 1
     return g
 end
-(approx_fixe , err_fixe) = ptfixes(g , x0 , 50 , 1e-9)
-nothing # hide</code></pre><p>On peut ensuite afficher l&#39;évolution des erreurs selon l&#39;itération.</p><div class="admonition is-warning"><header class="admonition-header">Avertissement</header><div class="admonition-body"><p>Il est important de sélectionner les éléments non-nuls des vecteurs <code>err_bis</code>, <code>err_sec</code>, <code>err_new</code> et <code>err_fixe</code> afin de pouvoir les afficher avec un axe logarithmique (<code>yscale=:log10</code>). Pour ce faire, on peut utiliser l&#39;indexation logique <code>err_bis[err_bis.&gt;0]</code>.</p></div></div><pre><code class="language-">plot(1:length(err_bis[err_bis.&gt;0]),err_bis[err_bis.&gt;0],label=&quot;Bissection&quot;)
+(approx_fixe , err_fixe) = ptfixes(g , x0 , 50 , 1e-9)</code></pre><p>On peut ensuite afficher l&#39;évolution des erreurs selon l&#39;itération.</p><div class="admonition is-warning"><header class="admonition-header">Avertissement</header><div class="admonition-body"><p>Il est important de sélectionner les éléments non-nuls des vecteurs <code>err_bis</code>, <code>err_sec</code>, <code>err_new</code> et <code>err_fixe</code> afin de pouvoir les afficher avec un axe logarithmique (<code>yscale=:log10</code>). Pour ce faire, on peut utiliser l&#39;indexation logique <code>err_bis[err_bis.&gt;0]</code>.</p></div></div><pre><code class="language-julia">plot(1:length(err_bis[err_bis.&gt;0]),err_bis[err_bis.&gt;0],label=&quot;Bissection&quot;)
 plot!(1:length(err_sec[err_sec.&gt;0]),err_sec[err_sec.&gt;0],label=&quot;Sécante&quot;)
 plot!(1:length(err_new[err_new.&gt;0]),err_new[err_new.&gt;0],label=&quot;Newton&quot;)
 plot!(1:length(err_fixe[err_fixe.&gt;0]),err_fixe[err_fixe.&gt;0],label=&quot;Pt-fixe&quot;,
-      xlabel=&quot;nb itérations&quot;,ylabel=&quot;Erreur absolue&quot;,yscale=:log10)
-plot!([],[],label=&quot;&quot;,size=(400,300)); savefig(&quot;nl-plot.png&quot;); nothing # hide</code></pre><p><img src="nl-plot.png" alt="Erreurs pour les algorithmes de résolution d&#39;équation non-linéaire"/></p><p>Les tableaux des ratios des erreurs peuvent aussi être produits pour les méthodes des points-fixes, de la sécante et de Newton:</p><pre><code class="language-">ratio_fixe_1 = err_fixe[2:end] ./ err_fixe[1:end-1]
+      xlabel=&quot;nb itérations&quot;,ylabel=&quot;Erreur absolue&quot;,yscale=:log10)</code></pre><pre><code class="language-none">/home/travis/.julia/packages/GR/yMV3y/src/../deps/gr/bin/gksqt: error while loading shared libraries: libQt5Widgets.so.5: cannot open shared object file: No such file or directory
+connect: Connection refused
+GKS: can&#39;t connect to GKS socket application
+
+GKS: Open failed in routine OPEN_WS
+GKS: GKS not in proper state. GKS must be either in the state WSOP or WSAC in routine ACTIVATE_WS</code></pre><p><img src="../nl-plot.png" alt="Erreurs pour les algorithmes de résolution d&#39;équation non-linéaire"/></p><p>Les tableaux des ratios des erreurs peuvent aussi être produits pour les méthodes des points-fixes, de la sécante et de Newton:</p><pre><code class="language-julia">ratio_fixe_1 = err_fixe[2:end] ./ err_fixe[1:end-1]
 ratio_fixe_a = err_fixe[2:end] ./ err_fixe[1:end-1] .^ ((1+sqrt(5))/2)
 ratio_fixe_2 = err_fixe[2:end] ./ err_fixe[1:end-1] .^ 2
 
@@ -52,4 +54,45 @@ end
 @printf(&quot;e_{n+1}/e_{n}           e_{n+1}/e_{n}^a         e_{n+1}/e_{n}^2\n&quot;)
 for t=1:length(ratio_new_1)
     @printf(&quot;%16.15e   %16.15e   %16.15e\n&quot; , ratio_new_1[t] , ratio_new_a[t] , ratio_new_2[t])
-end</code></pre><p>On constate, tel qu&#39;attendu, que la méthode de la sécante converge au nombre d&#39;or <span>$\frac{1+ \sqrt{5}}{2}$</span>, que la méthode de Newton converge à l&#39;ordre 2 et que la méthode des points-fixes converge à l&#39;ordre 1 et à un taux de convergence de <span>$-\frac{2\sqrt{10}}{10}+1$</span>.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../interpolation/">« Interpolation</a><a class="docs-footer-nextpage" href="../edo/">Équations différentielles ordinaires »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 3 April 2020 22:26">Friday 3 April 2020</span>. Using Julia version 1.4.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+end</code></pre><pre><code class="language-none">Ratio des erreurs pour points-fixes
+e_{n+1}/e_{n}           e_{n+1}/e_{n}^a         e_{n+1}/e_{n}^2
+4.337722324515908e-01   5.595836871866058e-01   6.549703541481436e-01
+3.962722302185051e-01   8.566067772893009e-01   1.379404971682348e+00
+3.789284742100638e-01   1.451438714313260e+00   3.328601080781718e+00
+3.718581698122125e-01   2.594685581566762e+00   8.620343962602378e+00
+3.691484926019526e-01   4.747116875503448e+00   2.301288352878338e+01
+3.681364262106320e-01   8.764397127286946e+00   6.216953695708172e+01
+3.677619402929532e-01   1.623683417567725e+01   1.687045636326935e+02
+3.676232241550991e-01   3.011840766817009e+01   4.585600397329894e+02
+3.675700961234912e-01   5.589397474833063e+01   1.247183908969344e+03
+3.675448429269065e-01   1.037456039654324e+02   3.392817415642919e+03
+3.675199951148814e-01   1.925720840241055e+02   9.230405785949590e+03
+3.674685077452092e-01   3.574403847036365e+02   2.511186543199344e+04
+3.673343107518975e-01   6.633667941158308e+02   6.831250629884563e+04
+3.669710865764190e-01   1.230639525867425e+03   1.857843281978715e+05
+3.659815316267728e-01   2.280502212410273e+03   5.048990471402337e+05
+3.632737634627987e-01   4.213106436788056e+03   1.369368216718719e+06
+3.557882420395165e-01   7.715255342757516e+03   3.691847632812532e+06
+3.345016868126833e-01   1.373839109426753e+04   9.755710357696267e+06
+2.687623496628440e-01   2.171920881123002e+04   2.343315163304405e+07
+0.000000000000000e+00   0.000000000000000e+00   0.000000000000000e+00
+
+
+Ratio des erreurs pour la sécante
+e_{n+1}/e_{n}           e_{n+1}/e_{n}^a         e_{n+1}/e_{n}^2
+1.264911064067353e+00   1.631786322536602e+00   1.909940709378237e+00
+1.018888707951353e-01   1.136720004177633e-01   1.216260638526299e-01
+1.183738088892502e-01   5.417435600400748e-01   1.386847716765872e+00
+1.370256128342864e-02   2.344765486190767e-01   1.356186087600927e+00
+1.600063832984747e-03   3.881099821628988e-01   1.155721220223250e+01
+2.188928405338012e-05   2.837835598337190e-01   9.881207673981012e+01
+0.000000000000000e+00   0.000000000000000e+00   0.000000000000000e+00
+
+
+Ratio des erreurs pour Newton
+e_{n+1}/e_{n}           e_{n+1}/e_{n}^a         e_{n+1}/e_{n}^2
+1.324555320336763e-01   1.708729820275751e-01   2.000000000000007e-01
+1.349574458948139e-02   6.072823581757399e-02   1.538461538461681e-01
+1.871175419298611e-04   1.204786844631215e-02   1.580547113762238e-01
+3.608453929166699e-08   4.678178844695772e-04   1.628919429063317e-01
+0.000000000000000e+00   0.000000000000000e+00   0.000000000000000e+00</code></pre><p>On constate, tel qu&#39;attendu, que la méthode de la sécante converge au nombre d&#39;or <span>$\frac{1+ \sqrt{5}}{2}$</span>, que la méthode de Newton converge à l&#39;ordre 2 et que la méthode des points-fixes converge à l&#39;ordre 1 et à un taux de convergence de <span>$-\frac{2\sqrt{10}}{10}+1$</span>.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../interpolation/">« Interpolation</a><a class="docs-footer-nextpage" href="../edo/">Équations différentielles ordinaires »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Friday 3 April 2020 22:42">Friday 3 April 2020</span>. Using Julia version 1.4.0.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
