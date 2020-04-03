@@ -40,8 +40,7 @@ Sx = splinec([1,2,4,5] , [1,9,2,11] , LinRange(1,5,200) , [4,4] , [-30,-10])
 Sx = splinec([1,2,4,5] , [1,9,2,11] , LinRange(1,5,200) , [3,4] , [NaN,-10])
 ```
 """
-function splinec(xi::AbstractArray{<:Real,1}, yi::AbstractArray{<:Real,1} ,
-        x::AbstractArray{<:Real,1} , type_f::AbstractArray{<:Integer,1} , val_f::AbstractArray{<:Real,1})
+function splinec(xi::AbstractVector{<:Real}, yi::AbstractVector{<:Real}, x::AbstractVector{<:Real}, type_f::AbstractVector{<:Real} , val_f::AbstractVector{<:Real})
 
     N = length(xi)
 
@@ -153,7 +152,7 @@ diff_div2 = table[1:end-1,2]
 diff_div3 = table[1:end-2,3]
 ```
 """
-function divided_difference(xi::AbstractArray{<:Real,1} , yi::AbstractArray{<:Real,1})
+function divided_difference(xi::AbstractVector{<:Real} , yi::AbstractVector{<:Real})
 
     nb          =   length(xi)
     div_f       =   NaN .* ones(Float64,nb-1,nb-1)

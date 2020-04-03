@@ -43,7 +43,7 @@ nothing # hide
 Il faut ensuite appeler la fonction [`euler`](@ref):
 
 ```@example 1
-using MTH2210_Julia
+using MTH2210
 using Plots
 
 t0 = 1.

@@ -32,9 +32,7 @@ end
 (approx , err_abs) = secante((x) -> x^2 - 10 , 3 , 3.5 , 20 , 1e-9)
 ```
 """
-function secante(fct::Function , x0::T , x1::T ,
-					nb_it_max::Integer, tol_rel::T) where {T<:AbstractFloat}
-
+function secante(fct::Function , x0::T , x1::T , nb_it_max::Integer, tol_rel::T) where {T<:AbstractFloat}
 
      try
          fct(x0)
@@ -84,5 +82,4 @@ function secante(fct::Function , x0::T , x1::T ,
      return approx , err_abs
 end
 
-secante(fct::Function , x0::Real , x1::Real , nb_it_max::Integer ,
-		tol_rel::Real) = secante(fct , convert(Float64,x0) , convert(Float64,x1) , nb_it_max , convert(Float64,tol_rel))
+@inline secante(fct::Function , x0::Real , x1::Real , nb_it_max::Integer , tol_rel::Real) = secante(fct , Float64(x0) , Float64(x1) , nb_it_max , Float64(tol_rel))

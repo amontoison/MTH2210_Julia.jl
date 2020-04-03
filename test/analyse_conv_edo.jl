@@ -1,12 +1,3 @@
-"""
-Script vérifiant les algorithmes de résolution d'équations différentielles
-partielles
-"""
-using Plots
-push!(LOAD_PATH,"C:\\Users\\Antonin\\Documents\\Antonin\\Maitrise\\MTH2210_codes\\New_codes\\MTH2210_Julia\\src")
-using MTH2210_Julia
-using LinearAlgebra
-
 # Définition des paramètres pour l'analyse de convergence
 nb_eval = 15
 nb_pas_init = 100

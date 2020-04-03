@@ -19,7 +19,7 @@ veut afficher le polynôme de degré 3 sur l'intervalle ``[-1,3]``. On utilise
 la fonction [`lagrange`](@ref) ainsi:
 
 ```@example 1
-using MTH2210_Julia
+using MTH2210
 using Plots
 
 xi = [-1.,0.,2.5,3.]

@@ -40,8 +40,7 @@ end
 (approx , err_abs) = newtonNDder(my_sys_nl , my_sys_nl_jac , [1,1] , 20 , 1e-9)
 ```
 """
-function newtonNDder(fct::Function , jac::Function, x0::Array{T,1} ,
-				nb_it_max::Integer, tol_rel::T) where {T<:AbstractFloat}
+function newtonNDder(fct::Function, jac::Function, x0::AbstractVector{T}, nb_it_max::Integer, tol_rel::T) where {T<:AbstractFloat}
 
 
     try
@@ -149,5 +148,4 @@ function check_jac(f,jac,x0,T)
 
 end
 
-newtonNDder(fct::Function , jac::Function, x0::AbstractArray{<:Real,1} , nb_it_max::Integer ,
-		tol_rel::Real) = newtonNDder(fct , jac, convert(Array{Float64,1},x0) , nb_it_max , convert(Float64,tol_rel))
+@inline newtonNDder(fct::Function, jac::Function, x0::AbstractVector{<:Real}, nb_it_max::Integer, tol_rel::Real) = newtonNDder(fct , jac, Float64.(x0) , nb_it_max , Float64(tol_rel))

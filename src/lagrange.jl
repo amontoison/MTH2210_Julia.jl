@@ -19,8 +19,7 @@ Lx = lagrange(xi , yi , x)
 Lx = lagrange([-1,0,1] , [1,0,1] , LinRange(-1,1,200))
 ```
 """
-function lagrange(xi::AbstractArray{T,1}, yi::AbstractArray{T,1},
-    x::AbstractArray{T,1}) where {T<:AbstractFloat}
+function lagrange(xi::AbstractVector{T}, yi::AbstractVector{T}, x::AbstractVector{T}) where {T<:AbstractFloat}
 
     N = length(xi)
 
@@ -31,7 +30,7 @@ function lagrange(xi::AbstractArray{T,1}, yi::AbstractArray{T,1},
     end
 
     # Calcul des poids barycentriques
-    w   =   Array{T,1}(undef,N)
+    w   =   Vector{T}(undef, N)
     ind =   1:1:N
 
     for t=1:N
@@ -40,9 +39,9 @@ function lagrange(xi::AbstractArray{T,1}, yi::AbstractArray{T,1},
 
     # Calcul de l'interpolant aux points x
     test        =   Array{Bool,1}(undef,length(xi))
-    Lx          =   Array{T,1}(undef,length(x))
-    vec_diff    =   Array{T,1}(undef,length(xi))
-    ratio       =   Array{T,1}(undef,length(xi))
+    Lx          =   Vector{T}(undef, length(x))
+    vec_diff    =   Vector{T}(undef, N)
+    ratio       =   Vector{T}(undef, N)
 
     for t=1:length(x)
         test .= (x[t] .== xi)
@@ -58,6 +57,4 @@ function lagrange(xi::AbstractArray{T,1}, yi::AbstractArray{T,1},
     return Lx
 end
 
-lagrange(xi::AbstractArray{<:Real,1}, yi::AbstractArray{<:Real,1},
-    x::AbstractArray{<:Real,1}) = lagrange(convert(Array{Float64,1},xi),convert(Array{Float64,1},yi),
-        convert(Array{Float64,1},x))
+@inline lagrange(xi::AbstractVector{<:Real}, yi::AbstractVector{<:Real}, x::AbstractVector{<:Real}) = lagrange(Float64.(xi), Float64.(yi), Float64.(x))

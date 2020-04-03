@@ -31,8 +31,7 @@ end
 (approx , err_abs) = ptfixes( (x) -> -x^2/10 + x + 1 , 3 , 25 , 1e-9)
 ```
 """
-function ptfixes(fct::Function , x0::T ,
-					nb_it_max::Integer, tol_rel::T) where {T<:AbstractFloat}
+function ptfixes(fct::Function , x0::T , nb_it_max::Integer, tol_rel::T) where {T<:AbstractFloat}
 
 
      try
@@ -76,5 +75,4 @@ function ptfixes(fct::Function , x0::T ,
      return approx , err_abs
 end
 
-ptfixes(fct::Function , x0::Real ,	nb_it_max::Integer ,
-		tol_rel::Real) = ptfixes(fct , convert(Float64,x0) , nb_it_max , convert(Float64,tol_rel))
+@inline ptfixes(fct::Function, x0::Real, nb_it_max::Integer, tol_rel::Real) = ptfixes(fct, Float64(x0), nb_it_max, Float64(tol_rel))

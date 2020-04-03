@@ -1,12 +1,11 @@
-push!(LOAD_PATH,"C:\\Users\\Antonin\\Documents\\Antonin\\Maitrise\\MTH2210_codes\\New_codes\\MTH2210_Julia\\src")
-
-using Documenter, DocumenterLaTeX, MTH2210_Julia
+using Documenter
+using MTH2210
 
 makedocs(
-    sitename = "MTH2210 Julia",
-    modules = [MTH2210_Julia],
-    format = Documenter.HTML(prettyurls = false),
-    #format = LaTeX(),
+    sitename = "MTH2210",
+    modules = [MTH2210],
+    authors = "Antonin Paquette and Alexis Montoison",
+    format = Documenter.HTML(prettyurls = get(ENV, "CI", nothing) == "true"),
     pages = Any[
             "Accueil" => "accueil.md",
             "Mise en place" => "mise_en_place.md",
@@ -16,5 +15,7 @@ makedocs(
             "Problèmes non-linéaires" => "prob_non_lin.md",
             "Équations différentielles ordinaires" => "edo.md",
             "Index des fonctions" => "fct_index.md"
-                ]
+            ]
     )
+
+deploydocs(repo = "github.com/amontoison/MTH2210.jl.git")
