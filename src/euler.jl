@@ -37,9 +37,7 @@ end
 (t,y)   =   euler((t,y) -> [y[2];-y[1]] , [0;10] , [1;0] , 1000)
 ```
 """
-function euler(fct::Function, tspan::Array{T,1},
-            Y0::Array{T,1} , nbpas::Integer) where {T<:AbstractFloat}
-
+function euler(fct::Function, tspan::AbstractVector{T}, Y0::AbstractVector{T} , nbpas::Integer) where {T<:AbstractFloat}
 
      # Vérification des arguments d'entrée
      if length(tspan) != 2
@@ -79,8 +77,6 @@ function euler(fct::Function, tspan::Array{T,1},
 
 end
 
-euler(fct::Function , tspan::AbstractArray{<:Real,1} , Y0::AbstractArray{<:Real,1} ,
-        nbpas::Integer) = euler(fct, convert(Array{Float64,1},tspan), convert(Array{Float64,1},Y0) , nbpas)
+@inline euler(fct::Function, tspan::AbstractVector{<:Real}, Y0::AbstractVector{<:Real}, nbpas::Integer) = euler(fct, Float64.(tspan), Float64.(Y0), nbpas)
 
-euler(fct::Function , tspan::AbstractArray{<:Real,1} , Y0::Real ,
-        nbpas::Integer) = euler(fct , tspan , [Y0] , nbpas)
+@inline euler(fct::Function , tspan::AbstractVector{<:Real}, Y0::Real, nbpas::Integer) = euler(fct, Float64.(tspan), [Float64(Y0)], nbpas)

@@ -31,8 +31,7 @@ end
 (approx , err_abs) = newtonND(my_sys_nl , [1,1] , 20 , 1e-9)
 ```
 """
-function newtonND(fct::Function , x0::Array{T,1} , nb_it_max::Integer,
-						tol_rel::T) where {T<:AbstractFloat}
+function newtonND(fct::Function , x0::AbstractVector{T}, nb_it_max::Integer, tol_rel::T) where {T<:AbstractFloat}
 
 
     try
@@ -124,5 +123,4 @@ function app_jac(f,x,T)
 
 end
 
-newtonND(fct::Function , x0::AbstractArray{<:Real,1} , nb_it_max::Integer,
-		tol_rel::Real) = newtonND(fct , convert(Array{Float64,1},x0) , nb_it_max , convert(Float64,tol_rel))
+@inline newtonND(fct::Function, x0::AbstractVector{<:Real}, nb_it_max::Integer, tol_rel::Real) = newtonND(fct, Float64.(x0), nb_it_max, Float64(tol_rel))

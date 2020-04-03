@@ -1,14 +1,3 @@
-"""
-Script vérifiant les algorithmes d'interpolation
-"""
-
-using Plots
-#using Test
-push!(LOAD_PATH,"C:\\Users\\Antonin\\Documents\\Antonin\\Maitrise\\MTH2210_codes\\New_codes\\MTH2210_Julia\\src")
-using MTH2210_Julia
-using LinearAlgebra
-using Statistics
-
 # Vérification de la fonction lagrange pour polynôme 1
 
 fct1(x)	=	(x-1) * (x+2.5) * (x-pi) * (x+11)^2

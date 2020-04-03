@@ -41,25 +41,22 @@ que les packages suivants d'Atom sont installés:
     Vous devez vous assurer que les packages d'Atom soit capable de trouver
     l'éxécutable de Julia. Pour ce faire, vérifiez en cliquant sur le menu Package,
     puis Julia puis Settings si le champ *Julia Path* est vide. Si c'est le cas,
-    indiquez l'emplacement de l'éxécutable de Julia, habituellement `C:\Users\VotreNom\AppData\Local\Julia-version\bin\julia.exe`.
+    indiquez l'emplacement de l'éxécutable de Julia, habituellement il s'agit de `C:\Users\VotreNom\AppData\Local\Julia-version\bin\julia.exe` sous Windows.
 
 
-## Installation du package MTH2210_Julia
+## Installation du package MTH2210
 
-Afin d'installer le package `MTH2210_Julia`, vous devez éxécuter la commande
+Afin d'installer le package `MTH2210`, vous devez éxécuter la commande
 suivante dans la console de Julia.
 
-```@julia
-Pkg.add(PackageSpec(url="https://github.com/AntoninPaquette/MTH2210_Julia.jl.git", rev="master"))
+```
+julia> ]
+pkg> add https://github.com/amontoison/MTH2210.jl.git
+pkg> test MTH2210
+julia> using MTH2210
 ```
 
 Les packages suivants doivent aussi être installés:
 
 - Affichage de graphique : [Plots](http://docs.juliaplots.org/latest/),
 - Génération d'un rapport : [Weave](http://weavejl.mpastell.com/stable/).
-
-Pour ce faire, vous devez appeler la fonction MTH2210_setup:
-
-```@julia
-MTH2210_setup()
-```

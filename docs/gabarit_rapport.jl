@@ -1,4 +1,4 @@
-#' # MTH2210A-RAPPORT DE LABORATOIRE
+#' # MTH2210-RAPPORT DE LABORATOIRE
 #'
 #' Nom et Prenoms                       Matricule: 0000000       Groupe:00
 #'
@@ -11,8 +11,7 @@ using Plots
 using LinearAlgebra
 using Printf
 using Statistics
-push!(LOAD_PATH,"C:\\Users\\Antonin\\Documents\\Antonin\\Maitrise\\MTH2210_codes\\New_codes\\MTH2210_Julia\\src")
-using MTH2210_Julia
+using MTH2210
 
 #' ## Exercice 1 - Quelques opérations simples
 
@@ -82,7 +81,7 @@ end
 (temps,y)   =   euler(my_edo , [0.;10.] , [1.;0.] , 1000)
 
 plot(temps,y[:,1],label="y(t)")
-plot!(temps,10 .* y[:,2],label="y'(t)",xlabel="Temps",title="Solution num. de l'EDO")
+plot!(temps,10 .* y[:,2], label="y'(t)", xlabel="Temps", title="Solution num. de l'EDO")
 
 end
 

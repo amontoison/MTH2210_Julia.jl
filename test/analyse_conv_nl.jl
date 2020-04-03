@@ -1,12 +1,3 @@
-"""
-Script vérifiant les algorithmes de résolution d'équations non-linéaires
-"""
-
-using Plots
-using Statistics
-push!(LOAD_PATH,"C:\\Users\\Antonin\\Documents\\Antonin\\Maitrise\\MTH2210_codes\\New_codes\\MTH2210_Julia\\src")
-using MTH2210_Julia
-
 alpha	=	(1+sqrt(5))/2
 
 # Vérification des ordre de convergence pour bissect, secante, newton1D

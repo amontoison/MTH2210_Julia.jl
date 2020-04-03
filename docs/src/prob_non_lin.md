@@ -46,7 +46,7 @@ On appelle ensuite les fonctions [`bissec`](@ref), [`secante`](@ref) et
 de ``tol=10^{-9}``.
 
 ```@example 1
-using MTH2210_Julia
+using MTH2210
 using Plots
 using Printf
 

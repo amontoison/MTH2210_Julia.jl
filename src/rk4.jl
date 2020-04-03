@@ -41,8 +41,7 @@ end
 (t,y)   =   rk4((t,y) -> [y[2];-y[1]] , [0;10] , [1;0] , 1000)
 ```
 """
-function rk4(fct::Function, tspan::Array{T,1},
-            Y0::Array{T,1} , nbpas::Integer) where {T<:AbstractFloat}
+function rk4(fct::Function, tspan::AbstractVector{T}, Y0::AbstractVector{T}, nbpas::Integer) where {T<:AbstractFloat}
 
 
      # Vérification des arguments d'entrée
@@ -92,8 +91,6 @@ function rk4(fct::Function, tspan::Array{T,1},
 
 end
 
-rk4(fct::Function , tspan::AbstractArray{<:Real,1} , Y0::AbstractArray{<:Real,1} , 
-        nbpas::Integer) = rk4(fct, convert(Array{Float64,1},tspan), convert(Array{Float64,1},Y0) , nbpas)
+@inline rk4(fct::Function, tspan::AbstractVector{<:Real}, Y0::AbstractVector{<:Real}, nbpas::Integer) = rk4(fct, Float64.(tspan), Float64.(Y0), nbpas)
 
-rk4(fct::Function , tspan::AbstractArray{<:Real,1} , Y0::Real ,
-        nbpas::Integer) = rk4(fct , tspan , [Y0] , nbpas)
+@inline rk4(fct::Function, tspan::AbstractVector{<:Real}, Y0::Real, nbpas::Integer) = rk4(fct, tspan, [Y0], nbpas)

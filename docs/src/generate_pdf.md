@@ -3,7 +3,7 @@
 Le package [Weave](http://weavejl.mpastell.com/stable/) permet de générer un
 rapport sous format pdf d'un script Julia.
 
-Le fichier [gabarit_rapport.jl](../../src/gabarit_rapport.jl) est un gabarit de
+Le fichier [gabarit_rapport.jl](../gabarit_rapport.jl) est un gabarit de
 rapport. Après avoir édité votre script, vous pouvez publier votre script en
 format pdf (avec pdflatex) avec la commande:
 ```julia
