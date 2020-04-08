@@ -20,7 +20,7 @@ jobs:
   include:
     - stage: Documentation
       julia: 1.4
-      end:
+      env:
         - GKSwstype="100"
       os: linux
       script:
