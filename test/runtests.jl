@@ -1,4 +1,4 @@
-using MTH2210, LinearAlgebra, Plots, Test
+using MTH2210, LinearAlgebra, UnicodePlots, Statistics, Test
 
 # Script vérifiant les algorithmes d'interpolation
 include("analyse_interpolation.jl")
