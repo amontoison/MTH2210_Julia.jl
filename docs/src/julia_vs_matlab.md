@@ -5,7 +5,7 @@ de programmation MatLab et Julia. Cette page ne se veut pas être une revue
 exhaustive ni complète des différences entre ces deux langages, mais un sommaire
 permettant à un utilisateur habitué à MatLab de pouvoir être minimalement fonctionnel
 sur Julia. Un complément d'informations peut être trouvé sur cette page web de
-la documentation de Julia [Noteworthy Differences from other Languages](https://docs.julialang.org/en/v1/manual/noteworthy-differences/).
+la documentation de Julia [Noteworthy Differences from other Languages](https://docs.julialang.org/en/v1/manual/noteworthy-differences/) et sur cette [cheatsheet](https://cheatsheets.quantecon.org/).
 
 Une des différences majeures entre Julia et MatLab est que MatLab représente par
 défaut ces données dans dans des matrices contenant des `Float64`, tandis que

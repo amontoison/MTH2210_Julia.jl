@@ -7,7 +7,7 @@ makedocs(
     authors = "Antonin Paquette and Alexis Montoison",
     format = Documenter.HTML(prettyurls = get(ENV, "CI", nothing) == "true"),
     pages = [
-            "Accueil" => "accueil.md",
+            "Accueil" => "index.md",
             "Mise en place" => "mise_en_place.md",
             "Julia vs MatLab" => "julia_vs_matlab.md",
             "Génération d'un rapport" => "generate_pdf.md",
