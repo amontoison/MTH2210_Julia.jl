@@ -11,152 +11,152 @@ Float64</code></pre><p>Aussi, Julia fait la différence entre une variable de ty
 -1.0
 
 julia&gt; d = [-1.]
-1-element Array{Float64,1}:
+1-element Vector{Float64}:
  -1.0</code></pre><p>Ceci engendre donc des différences dans l&#39;utilisation de certaines fonctions. Par exemple, si l&#39;on veut calculer les valeurs absolues d&#39;un <code>Float64</code> et les valeurs absolues des éléments d&#39;un vecteur (ou d&#39;une matrice), on obtient les résultats suivants:</p><pre><code class="language-julia-repl">julia&gt; abs(c)
 1.0
 
 julia&gt; abs(d)
-ERROR: MethodError: no method matching abs(::Array{Float64,1})
+ERROR: MethodError: no method matching abs(::Vector{Float64})
 Closest candidates are:
-  abs(!Matched::Float32) at float.jl:527
-  abs(!Matched::Pkg.Resolve.VersionWeight) at /buildworker/worker/package_linux64/build/usr/share/julia/stdlib/v1.5/Pkg/src/Resolve/versionweights.jl:36
-  abs(!Matched::Float64) at float.jl:528
+  abs(!Matched::T) where T&lt;:GeometryTypes.OffsetInteger at ~/.julia/packages/GeometryTypes/08XBK/src/faces.jl:27
+  abs(!Matched::Unsigned) at /opt/hostedtoolcache/julia/1.7.1/x64/share/julia/base/int.jl:179
+  abs(!Matched::Signed) at /opt/hostedtoolcache/julia/1.7.1/x64/share/julia/base/int.jl:180
   ...</code></pre><p>Il sera indiqué à la section <a href="#creation_vec_mat-1"><code>Opérations sur des vecteurs et des matrices</code></a> comment effectuer cette opération simple à effectuer sur MatLab.</p><h2 id="Création-de-vecteurs-et-de-matrices-1"><a class="docs-heading-anchor" href="#Création-de-vecteurs-et-de-matrices-1">Création de vecteurs et de matrices</a><a class="docs-heading-anchor-permalink" href="#Création-de-vecteurs-et-de-matrices-1" title="Permalink"></a></h2><p>La première différence notable avec MatLab est le fait que Julia distingue les vecteurs des matrices. Les vecteurs sont des <code>array</code> de dimension 1, alors que les matrices sont des <code>array</code> dimension 2. En Julia, la convention adoptée est de type <em>column-major order</em>, les vecteurs sont de type colonne. Afin de créer un vecteur sur Julia, on emploie les crochets <code>[]</code> et on sépare les éléments par des virgules ou des point-virgules <code>;</code>.</p><pre><code class="language-julia-repl">julia&gt; x = [1,2,3]
-3-element Array{Int64,1}:
+3-element Vector{Int64}:
  1
  2
  3
 
 julia&gt; y = [1;2;3]
-3-element Array{Int64,1}:
+3-element Vector{Int64}:
  1
  2
  3</code></pre><p>Les matrices sont quant à elles créées encore à l&#39;aide de crochets <code>[]</code>, mais les éléments sur une même ligne doivent être séparés pas des espaces et un saut de ligne s&#39;indique par le point-virgule <code>;</code>.</p><pre><code class="language-julia-repl">julia&gt; A = [1 2 3; 4 5 6]
-2×3 Array{Int64,2}:
+2×3 Matrix{Int64}:
  1  2  3
  4  5  6</code></pre><div class="admonition is-info"><header class="admonition-header">Note</header><div class="admonition-body"><p>La commande suivante créera un <code>array</code> de dimension 2 possédant une ligne et 3 colonnes au lieu d&#39;un vecteur</p><pre><code class="language-">z = [1 2 3]</code></pre></div></div><h2 id="creation_vec_mat-1"><a class="docs-heading-anchor" href="#creation_vec_mat-1">Opérations sur des vecteurs et des matrices</a><a class="docs-heading-anchor-permalink" href="#creation_vec_mat-1" title="Permalink"></a></h2><p>Julia récupère quelques éléments syntaxiques de MatLab concernant les opérations sur <em>arrays</em>, mais diffère sur quelques points. Comme dans MatLab, les opérations <em>élément par élément</em> s&#39;effectuent à l&#39;aide du point <code>.</code>. Ainsi, les opérations suivantes sont les mêmes que sur MatLab.</p><pre><code class="language-julia-repl">julia&gt; v=[1,2]
-2-element Array{Int64,1}:
+2-element Vector{Int64}:
  1
  2
 
 julia&gt; B=[1 2 ; 3 4]
-2×2 Array{Int64,2}:
+2×2 Matrix{Int64}:
  1  2
  3  4
 
 julia&gt; C=[5 -6 ; -7 8]
-2×2 Array{Int64,2}:
+2×2 Matrix{Int64}:
   5  -6
  -7   8
 
 julia&gt; B*C
-2×2 Array{Int64,2}:
+2×2 Matrix{Int64}:
   -9  10
  -13  14
 
 julia&gt; B.*C
-2×2 Array{Int64,2}:
+2×2 Matrix{Int64}:
    5  -12
  -21   32
 
 julia&gt; B^2
-2×2 Array{Int64,2}:
+2×2 Matrix{Int64}:
   7  10
  15  22
 
 julia&gt; B.^2
-2×2 Array{Int64,2}:
+2×2 Matrix{Int64}:
  1   4
  9  16
 
 julia&gt; B*v
-2-element Array{Int64,1}:
+2-element Vector{Int64}:
   5
  11
 
 julia&gt; B.*v
-2×2 Array{Int64,2}:
+2×2 Matrix{Int64}:
  1  2
  6  8</code></pre><p>La multiplication d&#39;un vecteur ou une matrice par un nombre est définie comme sur MatLab.</p><pre><code class="language-julia-repl">julia&gt; 2.5*v
-2-element Array{Float64,1}:
+2-element Vector{Float64}:
  2.5
  5.0
 
 julia&gt; 2.5*B
-2×2 Array{Float64,2}:
+2×2 Matrix{Float64}:
  2.5   5.0
  7.5  10.0
 
 julia&gt; C/3
-2×2 Array{Float64,2}:
+2×2 Matrix{Float64}:
   1.66667  -2.0
  -2.33333   2.66667</code></pre><p>Les opérations différentes concernent notamment les opérations d&#39;addition/soustraction et les comparaison logique. L&#39;addition/soustraction d&#39;un nombre et d&#39;un vecteur/matrice n&#39;est pas définie en Julia, il faut donc utiliser le <code>.</code>.</p><pre><code class="language-julia-repl">julia&gt; 2 + B
-ERROR: MethodError: no method matching +(::Int64, ::Array{Int64,2})
+ERROR: MethodError: no method matching +(::Int64, ::Matrix{Int64})
 For element-wise addition, use broadcasting with dot syntax: scalar .+ array
 Closest candidates are:
-  +(::Any, ::Any, !Matched::Any, !Matched::Any...) at operators.jl:538
-  +(::T, !Matched::T) where T&lt;:Union{Int128, Int16, Int32, Int64, Int8, UInt128, UInt16, UInt32, UInt64, UInt8} at int.jl:86
-  +(::Union{Int16, Int32, Int64, Int8}, !Matched::BigInt) at gmp.jl:531
+  +(::Any, ::Any, !Matched::Any, !Matched::Any...) at /opt/hostedtoolcache/julia/1.7.1/x64/share/julia/base/operators.jl:655
+  +(::T, !Matched::T) where T&lt;:Union{Int128, Int16, Int32, Int64, Int8, UInt128, UInt16, UInt32, UInt64, UInt8} at /opt/hostedtoolcache/julia/1.7.1/x64/share/julia/base/int.jl:87
+  +(::Union{Int16, Int32, Int64, Int8}, !Matched::BigInt) at /opt/hostedtoolcache/julia/1.7.1/x64/share/julia/base/gmp.jl:535
   ...
 
 julia&gt; 2 .+ B
-2×2 Array{Int64,2}:
+2×2 Matrix{Int64}:
  3  4
  5  6
 
 julia&gt; B - C
-2×2 Array{Int64,2}:
+2×2 Matrix{Int64}:
  -4   8
  10  -4
 
 julia&gt; B .- C
-2×2 Array{Int64,2}:
+2×2 Matrix{Int64}:
  -4   8
  10  -4</code></pre><p>Pour les opérateurs logiques, il faut aussi employer le <code>.</code> afin de comparer <em>éléments par éléments</em>.</p><pre><code class="language-julia-repl">julia&gt; 2 == B
 false
 
 julia&gt; 2 .== B
-2×2 BitArray{2}:
+2×2 BitMatrix:
  0  1
  0  0
 
 julia&gt; 2 .&lt;= B
-2×2 BitArray{2}:
+2×2 BitMatrix:
  0  1
  1  1
 
 julia&gt; B&lt;C
-ERROR: MethodError: no method matching isless(::Array{Int64,2}, ::Array{Int64,2})
+ERROR: MethodError: no method matching isless(::Matrix{Int64}, ::Matrix{Int64})
 Closest candidates are:
-  isless(!Matched::Missing, ::Any) at missing.jl:87
-  isless(::Any, !Matched::Missing) at missing.jl:88
+  isless(::Any, !Matched::Missing) at /opt/hostedtoolcache/julia/1.7.1/x64/share/julia/base/missing.jl:88
+  isless(!Matched::Missing, ::Any) at /opt/hostedtoolcache/julia/1.7.1/x64/share/julia/base/missing.jl:87
 
 julia&gt; B.&lt;C
-2×2 BitArray{2}:
+2×2 BitMatrix:
  1  0
  0  1</code></pre><div class="admonition is-warning"><header class="admonition-header">Important</header><div class="admonition-body"><p>Étant donné que le point <code>.</code> permet à la fois de définir un <code>float</code> et d&#39;effectuer les opérations <em>éléments par éléments</em>, il faut mettre des espaces entre les points afin de pouvoir distinguer la signification de chaque point <code>.</code>. La commande suivante:</p><pre><code class="language-repl">5.+[1,2]</code></pre><p>produira le message d&#39;erreur suivant:</p><pre><code class="language-repl">ERROR: syntax: invalid syntax &quot;5.*&quot;; add space(s) to clarify</code></pre><p>Il faut alors utiliser la syntaxe suivante:</p><pre><code class="language-none">5. .+ [1,2]</code></pre></div></div><p>Les fonctions mathématiques standards définies sur <span>$\mathbb{R}$</span> n&#39;acceptent pas des vecteurs sous Julia. Il faut donc employer le point <code>.</code> immédiatemment après le nom de la fonction afin d&#39;appliquer la fonction <em>élément par élément</em>.</p><pre><code class="language-julia-repl">julia&gt; cos(v)
-ERROR: MethodError: no method matching cos(::Array{Int64,1})
+ERROR: MethodError: no method matching cos(::Vector{Int64})
 Closest candidates are:
-  cos(!Matched::BigFloat) at mpfr.jl:727
-  cos(!Matched::Missing) at math.jl:1197
-  cos(!Matched::Complex{Float16}) at math.jl:1145
+  cos(!Matched::T) where T&lt;:Union{Float32, Float64} at /opt/hostedtoolcache/julia/1.7.1/x64/share/julia/base/special/trig.jl:98
+  cos(!Matched::LinearAlgebra.Hermitian{var&quot;#s858&quot;, S} where {var&quot;#s858&quot;&lt;:Complex, S&lt;:(AbstractMatrix{&lt;:var&quot;#s858&quot;})}) at /opt/hostedtoolcache/julia/1.7.1/x64/share/julia/stdlib/v1.7/LinearAlgebra/src/symmetric.jl:761
+  cos(!Matched::Union{LinearAlgebra.Hermitian{var&quot;#s859&quot;, S}, LinearAlgebra.Symmetric{var&quot;#s859&quot;, S}} where {var&quot;#s859&quot;&lt;:Real, S}) at /opt/hostedtoolcache/julia/1.7.1/x64/share/julia/stdlib/v1.7/LinearAlgebra/src/symmetric.jl:757
   ...
 
 julia&gt; cos.(v)
-2-element Array{Float64,1}:
+2-element Vector{Float64}:
   0.5403023058681398
  -0.4161468365471424
 
 julia&gt; mod(B,3)
-ERROR: MethodError: no method matching mod(::Array{Int64,2}, ::Int64)
+ERROR: MethodError: no method matching mod(::Matrix{Int64}, ::Int64)
 Closest candidates are:
-  mod(!Matched::Missing, ::Number) at missing.jl:115
-  mod(!Matched::Unsigned, ::Signed) at int.jl:255
-  mod(!Matched::T, ::T) where T&lt;:Integer at int.jl:250
+  mod(!Matched::P, ::Real) where P&lt;:Dates.Period at /opt/hostedtoolcache/julia/1.7.1/x64/share/julia/stdlib/v1.7/Dates/src/periods.jl:90
+  mod(!Matched::Unsigned, ::Signed) at /opt/hostedtoolcache/julia/1.7.1/x64/share/julia/base/int.jl:279
+  mod(!Matched::Rational, ::Integer) at /opt/hostedtoolcache/julia/1.7.1/x64/share/julia/base/rational.jl:311
   ...
 
 julia&gt; mod.(B,3)
-2×2 Array{Int64,2}:
+2×2 Matrix{Int64}:
  1  2
  0  1</code></pre><p>Cette syntaxe s&#39;applique à toute les fonctions écrit sur Julia, que cela soit les fonctions des librairies standards de Julia ou des fonctions créées par l&#39;utilisateur.</p><div class="admonition is-warning"><header class="admonition-header">Avertissement</header><div class="admonition-body"><p>Certaines fonctions mathématiques sont définies sur des matrices carrés, tels les fonctions trigonométriques, l&#39;exponentiation et la puissance. Il faut donc faire attention à savoir si l&#39;on veut effectuer ces opérations sur la matrice ou sur les éléments de la matrice. L&#39;exemple suivant illustre ces différences:</p><pre><code class="language-repl">M=[0 1 ; 2 -1]
 exp(M)</code></pre><p>produit le résultat suivant:</p><pre><code class="language-repl">2×2 Array{Float64,2}:
@@ -164,36 +164,36 @@ exp(M)</code></pre><p>produit le résultat suivant:</p><pre><code class="languag
 1.72196  0.996317</code></pre><p>Alors que la commande suivante:</p><pre><code class="language-repl">exp.(M)</code></pre><p>effectue l&#39;exponentiation <em>élément par élément</em>:</p><pre><code class="language-repl">2×2 Array{Float64,2}:
 1.0      2.71828
 7.38906  0.367879</code></pre></div></div><h2 id="Indexation,-*slices*-et-concaténation-de-vecteurs-et-de-matrices-1"><a class="docs-heading-anchor" href="#Indexation,-*slices*-et-concaténation-de-vecteurs-et-de-matrices-1">Indexation, <em>slices</em> et concaténation de vecteurs et de matrices</a><a class="docs-heading-anchor-permalink" href="#Indexation,-*slices*-et-concaténation-de-vecteurs-et-de-matrices-1" title="Permalink"></a></h2><p>On accède aux éléments d&#39;un vecteur ou d&#39;une matrice à l&#39;aide des crochets <code>[]</code> comparativement à MatLab ou l&#39;on accède aux éléments avec les parenthèse <code>()</code>. Le reste de la syntaxe est identique à celle de MatLab, la numérotation commence à 1 et le dernier élément peut être extrait avec <code>end</code>. Les dimensions sont aussi séparées par des virgules <code>,</code>.</p><pre><code class="language-julia-repl">julia&gt; w=[-1,2,3]
-3-element Array{Int64,1}:
+3-element Vector{Int64}:
  -1
   2
   3
 
 julia&gt; E=[1 2 3 ; 4 5 6 ; 7 8 9]
-3×3 Array{Int64,2}:
+3×3 Matrix{Int64}:
  1  2  3
  4  5  6
  7  8  9
 
 julia&gt; w[2:end]
-2-element Array{Int64,1}:
+2-element Vector{Int64}:
  2
  3
 
 julia&gt; E[[1,3],1:2]
-2×2 Array{Int64,2}:
+2×2 Matrix{Int64}:
  1  2
  7  8
 
 julia&gt; E[[1,3],[1:2]]
-ERROR: ArgumentError: invalid index: UnitRange{Int64}[1:2] of type Array{UnitRange{Int64},1}</code></pre><p>La dernière commande engendre une erreur, ce qui permet d&#39;illustrer une subtile différence entre Julia et MatLab. MatLab interprète la commande <code>[1:2]</code> en créant un vecteur contenant <code>[1,2]</code>, alors que Julia crée un <em>array</em> d&#39;<em>array</em>, ce qui génère l&#39;erreur.</p><p>La concaténation s&#39;effectue selon la même logique que la création d&#39;une matrice, on emploie l&#39;espace pour concaténer horizontalement et le point-virgule <code>;</code> pour concaténer verticalement  </p><pre><code class="language-julia-repl">julia&gt; [E E]
-3×6 Array{Int64,2}:
+ERROR: ArgumentError: invalid index: UnitRange{Int64}[1:2] of type Vector{UnitRange{Int64}}</code></pre><p>La dernière commande engendre une erreur, ce qui permet d&#39;illustrer une subtile différence entre Julia et MatLab. MatLab interprète la commande <code>[1:2]</code> en créant un vecteur contenant <code>[1,2]</code>, alors que Julia crée un <em>array</em> d&#39;<em>array</em>, ce qui génère l&#39;erreur.</p><p>La concaténation s&#39;effectue selon la même logique que la création d&#39;une matrice, on emploie l&#39;espace pour concaténer horizontalement et le point-virgule <code>;</code> pour concaténer verticalement  </p><pre><code class="language-julia-repl">julia&gt; [E E]
+3×6 Matrix{Int64}:
  1  2  3  1  2  3
  4  5  6  4  5  6
  7  8  9  7  8  9
 
 julia&gt; [E;E]
-6×3 Array{Int64,2}:
+6×3 Matrix{Int64}:
  1  2  3
  4  5  6
  7  8  9
@@ -202,37 +202,37 @@ julia&gt; [E;E]
  7  8  9
 
 julia&gt; [w E]
-3×4 Array{Int64,2}:
+3×4 Matrix{Int64}:
  -1  1  2  3
   2  4  5  6
   3  7  8  9
 
 julia&gt; [E ; w&#39;]
-4×3 Array{Int64,2}:
+4×3 Matrix{Int64}:
   1  2  3
   4  5  6
   7  8  9
  -1  2  3</code></pre><p>La syntaxe pour modifier un ou des éléments d&#39;un vecteur ou d&#39;une matrice est la même que sur MatLab. Toutefois, puisque Julia est <em>fortement typé</em>, les commandes suivantes produisent des erreurs étant donné que les types ne concordent pas.</p><pre><code class="language-julia-repl">julia&gt; E[1,1] = [-1]
-ERROR: MethodError: Cannot `convert` an object of type Array{Int64,1} to an object of type Int64
+ERROR: MethodError: Cannot `convert` an object of type Vector{Int64} to an object of type Int64
 Closest candidates are:
-  convert(::Type{T}, !Matched::T) where T&lt;:Number at number.jl:6
-  convert(::Type{T}, !Matched::Number) where T&lt;:Number at number.jl:7
-  convert(::Type{T}, !Matched::Ptr) where T&lt;:Integer at pointer.jl:23
+  convert(::Type{T}, !Matched::T) where T&lt;:Number at /opt/hostedtoolcache/julia/1.7.1/x64/share/julia/base/number.jl:6
+  convert(::Type{T}, !Matched::Number) where T&lt;:Number at /opt/hostedtoolcache/julia/1.7.1/x64/share/julia/base/number.jl:7
+  convert(::Type{T}, !Matched::Base.TwicePrecision) where T&lt;:Number at /opt/hostedtoolcache/julia/1.7.1/x64/share/julia/base/twiceprecision.jl:262
   ...
 
 julia&gt; E[2:3,[1,3]] = -4
-ERROR: ArgumentError: indexed assignment with a single value to many locations is not supported; perhaps use broadcasting `.=` instead?</code></pre><p>En comparaison, les commandes suivantes ne produisent pas d&#39;erreurs:</p><pre><code class="language-julia-repl">julia&gt; E[1,1] = -1
+ERROR: ArgumentError: indexed assignment with a single value to possibly many locations is not supported; perhaps use broadcasting `.=` instead?</code></pre><p>En comparaison, les commandes suivantes ne produisent pas d&#39;erreurs:</p><pre><code class="language-julia-repl">julia&gt; E[1,1] = -1
 -1
 
 julia&gt; E[1:1,1] = [-1]
-1-element Array{Int64,1}:
+1-element Vector{Int64}:
  -1
 
 julia&gt; E[2:3,[1,3]] .= -4
-2×2 view(::Array{Int64,2}, 2:3, [1, 3]) with eltype Int64:
+2×2 view(::Matrix{Int64}, 2:3, [1, 3]) with eltype Int64:
  -4  -4
  -4  -4</code></pre><h2 id="Passer-par-valeur-ou-par-référence?-1"><a class="docs-heading-anchor" href="#Passer-par-valeur-ou-par-référence?-1">Passer par valeur ou par référence?</a><a class="docs-heading-anchor-permalink" href="#Passer-par-valeur-ou-par-référence?-1" title="Permalink"></a></h2><p>Une différence majeure entre MatLab et Julia est le fait que MatLab effectue des copies de ses variables, alors que Julia effectue parfois le référencement.</p><pre><code class="language-julia-repl">julia&gt; A = [1 2 ; 3 4]
-2×2 Array{Int64,2}:
+2×2 Matrix{Int64}:
  1  2
  3  4
 
@@ -241,40 +241,40 @@ julia&gt; B = A;
 julia&gt; B[1,1] = -9;
 
 julia&gt; A
-2×2 Array{Int64,2}:
+2×2 Matrix{Int64}:
  -9  2
   3  4</code></pre><p>La deuxième commande ne crée pas une copie de <code>A</code>, mais indique plutôt que <code>B</code> pointe vers le même espace mémoire que <code>A</code>. Ainsi, toute modification à <code>A</code> ou à <code>B</code> sera effectuée sur les deux variables.</p><p>Toutefois, dès qu&#39;une opération de <em>slices</em> consistant à extraire un sous-vecteur d&#39;un <em>array</em> est effectuée, une copie est créée.</p><pre><code class="language-julia-repl">julia&gt; A = [1 2 ; 3 4]
-2×2 Array{Int64,2}:
+2×2 Matrix{Int64}:
  1  2
  3  4
 
 julia&gt; C = A[1,:]
-2-element Array{Int64,1}:
+2-element Vector{Int64}:
  1
  2
 
 julia&gt; A[1,1] = -5;
 
 julia&gt; C
-2-element Array{Int64,1}:
+2-element Vector{Int64}:
  1
  2</code></pre><p>Si l&#39;on veut que la variable <code>C</code> pointe vers l&#39;espace mémoire de <code>A</code>, il faut plutôt employer la fonction <code>view</code>.</p><pre><code class="language-julia-repl">julia&gt; A = [1 2 ; 3 4]
-2×2 Array{Int64,2}:
+2×2 Matrix{Int64}:
  1  2
  3  4
 
 julia&gt; D = view(A,1,1:2)
-2-element view(::Array{Int64,2}, 1, 1:2) with eltype Int64:
+2-element view(::Matrix{Int64}, 1, 1:2) with eltype Int64:
  1
  2
 
 julia&gt; A[1,1] = -3;
 
 julia&gt; D
-2-element view(::Array{Int64,2}, 1, 1:2) with eltype Int64:
+2-element view(::Matrix{Int64}, 1, 1:2) with eltype Int64:
  -3
   2</code></pre><p>Lorsqu&#39;un <em>array</em> est passé en argument dans une fonction, l&#39;argument est passé par référence. Ainsi, toute modification de cet <em>array</em> dans la fonction se réflètera à l&#39;extérieur de cette fonction. Ceci constitue une très grosse différence par rapport à MatLab, où toutes les variables modifiées au sein d&#39;une fonction sont passées par valeur et non par référence.</p><pre><code class="language-julia-repl">julia&gt; A = [1 2 ; 3 4]
-2×2 Array{Int64,2}:
+2×2 Matrix{Int64}:
  1  2
  3  4
 
@@ -286,12 +286,12 @@ julia&gt; function demo!(M)
 demo! (generic function with 1 method)
 
 julia&gt; S = demo!(A)
-2×2 Array{Int64,2}:
+2×2 Matrix{Int64}:
  -10  3
    4  5
 
 julia&gt; A
-2×2 Array{Int64,2}:
+2×2 Matrix{Int64}:
  -11  2
    3  4</code></pre><div class="admonition is-info"><header class="admonition-header">Note</header><div class="admonition-body"><p>Par convention, les fonctions modifiant les variables passées en arguments sont notées avec un point d&#39;exclamation <code>!</code>.</p></div></div><h2 id="Création-d&#39;une-fonction-1"><a class="docs-heading-anchor" href="#Création-d&#39;une-fonction-1">Création d&#39;une fonction</a><a class="docs-heading-anchor-permalink" href="#Création-d&#39;une-fonction-1" title="Permalink"></a></h2><p>Sur MatLab, la création de fonctions ne peut s&#39;effectuer qu&#39;à la fin d&#39;un script ou en écrivant un fichier <code>.m</code> contenant la définition d&#39;une fonction. Julia est plus versatile, car des fonctions peuvent être définies n&#39;importe où dans un script et même à l&#39;intérieur d&#39;autres fonctions. L&#39;exemple suivant permet de définir la fonction <span>$y(x) = x \cos(x) -e^x$</span>.</p><pre><code class="language-julia-repl">julia&gt; function exemple1(x)
            y = x * cos(x) - exp(x)
@@ -300,11 +300,11 @@ julia&gt; A
 exemple1 (generic function with 1 method)
 
 julia&gt; x = LinRange(0,1,250)
-250-element LinRange{Float64}:
+250-element LinRange{Float64, Int64}:
  0.0,0.00401606,0.00803213,0.0120482,…,0.987952,0.991968,0.995984,1.0
 
 julia&gt; z1 = exemple1.(x)
-250-element Array{Float64,1}:
+250-element Vector{Float64}:
  -1.0
  -1.0000081075796525
  -1.0000326031788653
@@ -322,13 +322,13 @@ julia&gt; z1 = exemple1.(x)
  -2.1183395175454183
  -2.130109479580855
  -2.141958233610092
- -2.1538860072818515
+ -2.153886007281851
  -2.1658930279333086
  -2.1779795225909053</code></pre><div class="admonition is-warning"><header class="admonition-header">Important</header><div class="admonition-body"><p>la fonction est appellée avec un point étant donné que le veut évaluer la fonction sur chaque élément du vecteur <code>x</code>.</p></div></div><p>Cette dernière fonction peut être définie de manière plus compacte ainsi:</p><pre><code class="language-julia-repl">julia&gt; exemple2(x) = x * cos(x) - exp(x)
 exemple2 (generic function with 1 method)
 
 julia&gt; z2 = exemple2.(x)
-250-element Array{Float64,1}:
+250-element Vector{Float64}:
  -1.0
  -1.0000081075796525
  -1.0000326031788653
@@ -346,7 +346,7 @@ julia&gt; z2 = exemple2.(x)
  -2.1183395175454183
  -2.130109479580855
  -2.141958233610092
- -2.1538860072818515
+ -2.153886007281851
  -2.1658930279333086
  -2.1779795225909053</code></pre><p>Voici un exemple d&#39;une fonction permettant de retourner les éléments d&#39;un vecteur plus petit ou égal à une valeur <code>p</code> et les valeurs strictement plus grande que <code>p</code>.</p><pre><code class="language-julia-repl">julia&gt; function exemple3(x,p)
            vector_petit = x[x .&lt;= p]
@@ -356,7 +356,7 @@ julia&gt; z2 = exemple2.(x)
 exemple3 (generic function with 1 method)
 
 julia&gt; test = [1,5,-9,3,-5,2,8,12,7]
-9-element Array{Int64,1}:
+9-element Vector{Int64}:
   1
   5
  -9
@@ -370,14 +370,14 @@ julia&gt; test = [1,5,-9,3,-5,2,8,12,7]
 julia&gt; (vec1,vec2) = exemple3(test,2);
 
 julia&gt; vec1
-4-element Array{Int64,1}:
+4-element Vector{Int64}:
   1
  -9
  -5
   2
 
 julia&gt; vec2
-5-element Array{Int64,1}:
+5-element Vector{Int64}:
   5
   3
   8
@@ -462,4 +462,4 @@ Plot{Plots.GRBackend() n=4}</code></pre><p><img src="../tutorial-plot2.png" alt=
 julia&gt; data_y = [1e-3,1e-7,-1e-4,1e-5,0];
 
 julia&gt; plot(data_x[data_y.&gt;0],data_y[data_y.&gt;0],yscale=:log10,title=&quot;Graphique avec axe y de type log&quot;)
-Plot{Plots.GRBackend() n=1}</code></pre><p><img src="../tutorial-plot3.png" alt="Graphique #2"/></p><p>La description complète des attributs des graphiques est disponible à ce lien: <a href="http://docs.juliaplots.org/latest/attributes/">http://docs.juliaplots.org/latest/attributes/</a>.</p><h2 id="Quelques-fonctions-usuelles-1"><a class="docs-heading-anchor" href="#Quelques-fonctions-usuelles-1">Quelques fonctions usuelles</a><a class="docs-heading-anchor-permalink" href="#Quelques-fonctions-usuelles-1" title="Permalink"></a></h2><p>Le tableau suivant se veut un recensement non-exhaustif de certaines commandes usuelles sur MatLab et Julia.</p><table><tr><th style="text-align: center">Opération</th><th style="text-align: center">MatLab</th><th style="text-align: center">Julia</th><th style="text-align: center">Librairie requise</th></tr><tr><td style="text-align: center">Vecteur linéairement espacé</td><td style="text-align: center">linspace</td><td style="text-align: center">LinRange</td><td style="text-align: center"></td></tr><tr><td style="text-align: center">Valeur maximale d&#39;un array</td><td style="text-align: center">max</td><td style="text-align: center">maximum</td><td style="text-align: center"></td></tr><tr><td style="text-align: center">Valeur minimale d&#39;un array</td><td style="text-align: center">min</td><td style="text-align: center">minimum</td><td style="text-align: center"></td></tr><tr><td style="text-align: center">Résolution système linéaire</td><td style="text-align: center">\</td><td style="text-align: center">\</td><td style="text-align: center">LinearAlgebra</td></tr><tr><td style="text-align: center">Norme d&#39;un vecteur</td><td style="text-align: center">norm</td><td style="text-align: center">norm</td><td style="text-align: center">LinearAlgebra</td></tr><tr><td style="text-align: center">Norm d&#39;une matrice</td><td style="text-align: center">norm</td><td style="text-align: center">opnorm</td><td style="text-align: center">LinearAlgebra</td></tr><tr><td style="text-align: center">Affichage sur la console</td><td style="text-align: center">fprintf</td><td style="text-align: center">@printf</td><td style="text-align: center">Printf</td></tr><tr><td style="text-align: center">Moyenne d&#39;un array</td><td style="text-align: center">mean</td><td style="text-align: center">mean</td><td style="text-align: center">Statistics</td></tr><tr><td style="text-align: center">Affichage d&#39;un graphique</td><td style="text-align: center">plot</td><td style="text-align: center">plot</td><td style="text-align: center">Plots</td></tr></table></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../mise_en_place/">« Mise en place</a><a class="docs-footer-nextpage" href="../generate_pdf/">Génération d&#39;un rapport »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Tuesday 19 January 2021 23:38">Tuesday 19 January 2021</span>. Using Julia version 1.5.3.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+Plot{Plots.GRBackend() n=1}</code></pre><p><img src="../tutorial-plot3.png" alt="Graphique #2"/></p><p>La description complète des attributs des graphiques est disponible à ce lien: <a href="http://docs.juliaplots.org/latest/attributes/">http://docs.juliaplots.org/latest/attributes/</a>.</p><h2 id="Quelques-fonctions-usuelles-1"><a class="docs-heading-anchor" href="#Quelques-fonctions-usuelles-1">Quelques fonctions usuelles</a><a class="docs-heading-anchor-permalink" href="#Quelques-fonctions-usuelles-1" title="Permalink"></a></h2><p>Le tableau suivant se veut un recensement non-exhaustif de certaines commandes usuelles sur MatLab et Julia.</p><table><tr><th style="text-align: center">Opération</th><th style="text-align: center">MatLab</th><th style="text-align: center">Julia</th><th style="text-align: center">Librairie requise</th></tr><tr><td style="text-align: center">Vecteur linéairement espacé</td><td style="text-align: center">linspace</td><td style="text-align: center">LinRange</td><td style="text-align: center"></td></tr><tr><td style="text-align: center">Valeur maximale d&#39;un array</td><td style="text-align: center">max</td><td style="text-align: center">maximum</td><td style="text-align: center"></td></tr><tr><td style="text-align: center">Valeur minimale d&#39;un array</td><td style="text-align: center">min</td><td style="text-align: center">minimum</td><td style="text-align: center"></td></tr><tr><td style="text-align: center">Résolution système linéaire</td><td style="text-align: center">\</td><td style="text-align: center">\</td><td style="text-align: center">LinearAlgebra</td></tr><tr><td style="text-align: center">Norme d&#39;un vecteur</td><td style="text-align: center">norm</td><td style="text-align: center">norm</td><td style="text-align: center">LinearAlgebra</td></tr><tr><td style="text-align: center">Norm d&#39;une matrice</td><td style="text-align: center">norm</td><td style="text-align: center">opnorm</td><td style="text-align: center">LinearAlgebra</td></tr><tr><td style="text-align: center">Affichage sur la console</td><td style="text-align: center">fprintf</td><td style="text-align: center">@printf</td><td style="text-align: center">Printf</td></tr><tr><td style="text-align: center">Moyenne d&#39;un array</td><td style="text-align: center">mean</td><td style="text-align: center">mean</td><td style="text-align: center">Statistics</td></tr><tr><td style="text-align: center">Affichage d&#39;un graphique</td><td style="text-align: center">plot</td><td style="text-align: center">plot</td><td style="text-align: center">Plots</td></tr></table></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../mise_en_place/">« Mise en place</a><a class="docs-footer-nextpage" href="../generate_pdf/">Génération d&#39;un rapport »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Thursday 3 February 2022 17:08">Thursday 3 February 2022</span>. Using Julia version 1.7.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
